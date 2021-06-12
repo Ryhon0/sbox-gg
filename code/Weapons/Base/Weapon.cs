@@ -1,0 +1,118 @@
+﻿using Sandbox;
+
+public enum FireType
+{
+	SemiAuto,
+	FullAuto,
+	Burst3,
+	Burst2
+}
+
+public enum CrosshairType
+{
+	Dot,
+	Circle,
+	Sides,
+	None,
+	Cross
+}
+
+public partial class Weapon : BaseWeapon
+{
+	[Net, Predicted]
+	public int AmmoClip { get; set; }
+	[Net, Predicted]
+	public TimeSince TimeSinceReload { get; set; }
+	[Net, Predicted]
+	public bool IsReloading { get; set; }
+	[Net, Predicted]
+	public TimeSince TimeSinceDeployed { get; set; }
+
+	public virtual int ClipSize => 10;
+	public virtual bool ReloadMagazine => true;
+	public virtual float ReloadTime => 2f;
+
+	public virtual float Damage => 10f;
+	public virtual int RPM => 600;
+	public virtual int BulletsPerShot => 1;
+	public virtual bool IsAutomatic => true;
+	public virtual bool IsMelee => false;
+	public virtual float Spread => 0.1f;
+	public virtual float Force => 0.5f;
+
+	public virtual float DeployTime => 0.25f;
+
+	public virtual string ShootShound => "rust_pistol.shoot";
+	public virtual CrosshairType CrosshairType => CrosshairType.Dot;
+
+	public virtual int HoldType => 1;
+	public virtual string WorldModelPath => "weapons/rust_pistol/rust_pistol.vmdl";
+	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+
+	[Event( "hotloaded" )]
+	public void OnHotload()
+	{
+		SetModel( WorldModelPath );
+		ViewModelEntity?.SetModel( ViewModelPath );
+		DestroyHudElements();
+		CreateHudElements();
+	}
+	public override void ActiveStart( Entity ent )
+	{
+		base.ActiveStart( ent );
+
+		TimeSinceDeployed = 0;
+		IsReloading = false;
+	}
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		SetModel( WorldModelPath );
+
+		AmmoClip = ClipSize;
+	}
+	public override void CreateViewModel()
+	{
+		Host.AssertClient();
+
+		if ( string.IsNullOrEmpty( ViewModelPath ) )
+			return;
+
+		ViewModelEntity = new GGViewModel();
+		ViewModelEntity.Position = Position;
+		ViewModelEntity.Owner = Owner;
+		ViewModelEntity.EnableViewmodelRendering = true;
+		ViewModelEntity.SetModel( ViewModelPath );
+	}
+	public override void Simulate( Client owner )
+	{
+		if ( TimeSinceDeployed < DeployTime )
+			return;
+
+		if ( ReloadMagazine ? !IsReloading : true )
+		{
+			base.Simulate( owner );
+		}
+
+		if ( IsReloading && TimeSinceReload > ReloadTime )
+		{
+			OnReloadFinish();
+		}
+	}
+
+	public override void CreateHudElements()
+	{
+		if ( Local.Hud == null ) return;
+
+		CrosshairPanel = new Crosshair();
+		CrosshairPanel.Parent = Local.Hud;
+		CrosshairPanel.AddClass( CrosshairType.ToString().ToLower() );
+	}
+
+	public override void SimulateAnimator( PawnAnimator anim )
+	{
+		anim.SetParam( "holdtype", HoldType ); // TODO this is shit
+		anim.SetParam( "aimat_weight", 1.0f );
+	}
+}

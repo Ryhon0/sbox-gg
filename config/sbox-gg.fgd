@@ -1,0 +1,56 @@
+// 
+// Game : Sandbox.Game 
+// 
+@PointClass = gg : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// Crossbow : Weapon 
+// 
+@PointClass = xbow : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// Knife : Weapon 
+// 
+@PointClass = knife : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// PipeShotgun : Weapon 
+// 
+@PointClass = pipe : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// Pistol : Weapon 
+// 
+@PointClass = pistol : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// PumpShotgun : Weapon 
+// 
+@PointClass = pump : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// SMG : Weapon 
+// 
+@PointClass = smg : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
