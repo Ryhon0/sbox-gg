@@ -36,6 +36,7 @@ public partial class Weapon : BaseWeapon
 	public virtual float ProjectileSpeed => 1000;
 
 	public virtual float Damage => 10f;
+	public virtual float HeadshotMultiplier => 2f;
 	public virtual int RPM => 600;
 	public virtual int BulletsPerShot => 1;
 	public virtual bool IsAutomatic => true;

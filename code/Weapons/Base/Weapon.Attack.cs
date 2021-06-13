@@ -86,7 +86,10 @@ partial class Weapon
 					//
 					using ( Prediction.Off() )
 					{
-						var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage / count )
+						var dmg = (!IsMelee && tr.HitboxIndex == 5) ? damage * HeadshotMultiplier : damage;
+
+
+						var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, dmg / count )
 							.UsingTraceResult( tr )
 							.WithAttacker( Owner )
 							.WithWeapon( this );
