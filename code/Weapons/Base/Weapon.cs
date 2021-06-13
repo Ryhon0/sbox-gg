@@ -32,6 +32,9 @@ public partial class Weapon : BaseWeapon
 	public virtual bool ReloadMagazine => true;
 	public virtual float ReloadTime => 2f;
 
+	public virtual string Projectile => null;
+	public virtual float ProjectileSpeed => 1000;
+
 	public virtual float Damage => 10f;
 	public virtual int RPM => 600;
 	public virtual int BulletsPerShot => 1;

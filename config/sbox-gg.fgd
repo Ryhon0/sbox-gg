@@ -54,3 +54,11 @@
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
 
+// 
+// CrossbowBolt : Projectile 
+// 
+@PointClass = xbow_bolt : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+

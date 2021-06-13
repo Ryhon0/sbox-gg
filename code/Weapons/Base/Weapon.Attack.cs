@@ -57,26 +57,43 @@ partial class Weapon
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * (IsMelee ? 75 : 5000), bulletSize ) )
+			if ( Projectile != null )
 			{
-				if ( tr.Hit ) tr.Surface.DoBulletImpact( tr );
+				if ( !IsServer ) break;
+				var p = Create( Projectile );
+				p.Owner = Owner;
 
-				if ( !IsServer ) continue;
-				if ( !tr.Entity.IsValid() ) continue;
+				p.Position = Owner.EyePos;
+				p.Rotation = Owner.EyeRot;
 
-				//
-				// We turn predictiuon off for this, so any exploding effects don't get culled etc
-				//
-				using ( Prediction.Off() )
+				var vel = forward * ProjectileSpeed;
+				p.Velocity = vel;
+
+				if ( p is Projectile pp )
 				{
-					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage / count )
-						.UsingTraceResult( tr )
-						.WithAttacker( Owner )
-						.WithWeapon( this );
-
-					tr.Entity.TakeDamage( damageInfo );
+					pp.Damage = damage;
 				}
 			}
+			else foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * (IsMelee ? 75 : 5000), bulletSize ) )
+				{
+					if ( tr.Hit ) tr.Surface.DoBulletImpact( tr );
+
+					if ( !IsServer ) continue;
+					if ( !tr.Entity.IsValid() ) continue;
+
+					//
+					// We turn predictiuon off for this, so any exploding effects don't get culled etc
+					//
+					using ( Prediction.Off() )
+					{
+						var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage / count )
+							.UsingTraceResult( tr )
+							.WithAttacker( Owner )
+							.WithWeapon( this );
+
+						tr.Entity.TakeDamage( damageInfo );
+					}
+				}
 		}
 	}
 	[ClientRpc]
@@ -84,7 +101,7 @@ partial class Weapon
 	{
 		Host.AssertClient();
 
-		if ( !IsMelee )
+		if ( Projectile == null && !IsMelee )
 			Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
 		if ( IsLocalPawn )
