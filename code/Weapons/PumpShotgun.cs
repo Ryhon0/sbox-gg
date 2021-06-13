@@ -3,12 +3,12 @@
 [Library( "pump", Title = "Pump Shotgun" )]
 public class PumpShotgun : Weapon
 {
-	public override float Damage => 80;
+	public override float Damage => 120;
 	public override bool IsAutomatic => false;
 	public override int RPM => 100;
 	public override float ReloadTime => 0.75f;
 	public override int BulletsPerShot => 8;
-	public override float Spread => 0.4f;
+	public override float Spread => 0.2f;
 	public override int ClipSize => 6;
 	public override string ShootShound => "rust_pumpshotgun.shoot";
 	public override string WorldModelPath => "weapons/rust_pumpshotgun/rust_pumpshotgun.vmdl";

@@ -28,7 +28,7 @@ public partial class Weapon : BaseWeapon
 	[Net, Predicted]
 	public TimeSince TimeSinceDeployed { get; set; }
 
-	public virtual int ClipSize => 10;
+	public virtual int ClipSize => 1;
 	public virtual bool ReloadMagazine => true;
 	public virtual float ReloadTime => 2f;
 
@@ -53,14 +53,6 @@ public partial class Weapon : BaseWeapon
 	public virtual string WorldModelPath => "weapons/rust_pistol/rust_pistol.vmdl";
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
-	[Event( "hotloaded" )]
-	public void OnHotload()
-	{
-		SetModel( WorldModelPath );
-		ViewModelEntity?.SetModel( ViewModelPath );
-		DestroyHudElements();
-		CreateHudElements();
-	}
 	public override void ActiveStart( Entity ent )
 	{
 		base.ActiveStart( ent );
@@ -72,7 +64,8 @@ public partial class Weapon : BaseWeapon
 	{
 		base.Spawn();
 
-		SetModel( WorldModelPath );
+		if ( WorldModelPath != null )
+			SetModel( WorldModelPath );
 
 		AmmoClip = ClipSize;
 	}
@@ -97,6 +90,11 @@ public partial class Weapon : BaseWeapon
 		if ( ReloadMagazine ? !IsReloading : true )
 		{
 			base.Simulate( owner );
+
+			if ( ClipSize == 1 && TimeSincePrimaryAttack > 60f / RPM )
+			{
+				Reload();
+			}
 		}
 
 		if ( IsReloading && TimeSinceReload > ReloadTime )

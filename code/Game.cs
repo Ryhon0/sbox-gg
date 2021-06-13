@@ -30,11 +30,13 @@ public partial class Game : Sandbox.Game
 
 	List<string> Weapons = new List<string>()
 	{
-		"xbow",
+		"vec45",
 		"smg",
 		"pistol",
 		"pump",
 		"pipe",
+		"aa12",
+		"xbow",
 		"knife",
 	};
 

@@ -40,7 +40,7 @@ partial class Weapon
 			ShootEffects();
 			PlaySound( ShootShound );
 
-			ShootBullet( Spread, Force, Damage, 3f, BulletsPerShot );
+			ShootBullet( Spread, Force, Damage, IsMelee ? 20f : 3f, BulletsPerShot );
 		}
 	}
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int count = 1 )

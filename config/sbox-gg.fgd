@@ -7,6 +7,14 @@
 ]
 
 // 
+// AA12 : Weapon 
+// 
+@PointClass = aa12 : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
 // Crossbow : Weapon 
 // 
 @PointClass = xbow : ""
@@ -50,6 +58,14 @@
 // SMG : Weapon 
 // 
 @PointClass = smg : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// Vector45 : Weapon 
+// 
+@PointClass = vec45 : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]

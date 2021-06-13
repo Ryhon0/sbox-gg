@@ -11,4 +11,5 @@ public class Pistol : Weapon
 	public override string ShootShound => "rust_pistol.shoot";
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 	public override CrosshairType CrosshairType => CrosshairType.Cross;
+	public override int ClipSize => 15;
 }
