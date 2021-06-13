@@ -20,12 +20,18 @@ public class Ammo : Panel
 		if ( player == null ) return;
 
 		var weapon = player.ActiveChild as Weapon;
-		SetClass( "active", weapon != null );
 
+		SetClass( "active", weapon != null );
 		if ( weapon == null ) return;
 
-		Weapon.Text = $"{weapon.AmmoClip}";
-
-		Inventory.Text = $" / {weapon.ClipSize}";
+		if ( weapon.ClipSize == 1 )
+		{
+			Weapon.Text = Inventory.Text = "";
+		}
+		else
+		{
+			Weapon.Text = $"{weapon.AmmoClip}";
+			Inventory.Text = $" / {weapon.ClipSize}";
+		}
 	}
 }

@@ -19,5 +19,7 @@ public partial class MinimalHudEntity : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<KillFeed>();
 		RootPanel.AddChild<Scoreboard>();
 		RootPanel.AddChild<VoiceList>();
+
+		RootPanel.AddChild<GunGameHUD>();
 	}
 }

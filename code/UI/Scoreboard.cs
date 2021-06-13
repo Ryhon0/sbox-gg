@@ -19,6 +19,25 @@ public class Scoreboard : Sandbox.UI.Scoreboard<ScoreboardEntry>
 		Header.Add.Label( "deaths", "deaths" );
 		Header.Add.Label( "ping", "ping" );
 	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		Canvas.SortChildren( c =>
+		{
+			var snd = c.GetChild( 1 );
+			var l = (snd as Label);
+			int.TryParse( l.Text, out int rank );
+			return -rank;
+		} );
+	}
+
+	protected override void AddPlayer( PlayerScore.Entry entry )
+	{
+		base.AddPlayer( entry );
+
+	}
 }
 
 public class ScoreboardEntry : Sandbox.UI.ScoreboardEntry
@@ -43,6 +62,6 @@ public class ScoreboardEntry : Sandbox.UI.ScoreboardEntry
 
 		Rank.Text = entry.Get<int>( "rank", 0 ).ToString();
 
-		Parent.SortChildren( c => -1 - int.Parse( (c.GetChild( 1 ) as Label).Text ) );
+		SetClass( "me", Local.Client != null && entry.Get<ulong>( "steamid", 0 ) == Local.Client.SteamId );
 	}
 }

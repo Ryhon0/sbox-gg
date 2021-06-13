@@ -47,6 +47,8 @@ public partial class Game : Sandbox.Game
 
 			GivePoint( owner );
 		}
+
+		args.Killed.GetClientOwner()?.SetScore( "deaths", args.Killed.GetClientOwner().GetScore<int>( "deaths", 0 ) + 1 );
 	}
 
 	void GivePoint( Client c )
@@ -59,7 +61,7 @@ public partial class Game : Sandbox.Game
 		GiveWeapon( c.Pawn as Player, GetWeapon( rank ) );
 	}
 
-	string GetWeapon( int rank )
+	public string GetWeapon( int rank )
 	{
 		var i = rank.Wrap( 0, Weapons.Count );
 		return Weapons[i];
