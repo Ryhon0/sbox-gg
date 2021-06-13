@@ -11,7 +11,7 @@ public partial class Player
 
 	public override void StartTouch( Entity other )
 	{
-		if ( other is BaseWeapon ) return;
+		if ( other is BaseWeapon ) other.Delete();
 
 		base.StartTouch( other );
 	}
@@ -36,11 +36,6 @@ partial class GGInventory : BaseInventory
 			// Despawn it
 			ent.Delete();
 			return false;
-		}
-
-		if ( weapon != null )
-		{
-			Sound.FromWorld( "dm.pickup_weapon", ent.Position );
 		}
 
 		return base.Add( ent, makeActive );
