@@ -4,6 +4,8 @@ using System.Collections.Generic;
 [Library( "gg" )]
 public partial class Game : Sandbox.Game
 {
+	static SoundEvent NextLevel = new SoundEvent( "sounds/electrical/powerup.vsnd", 1 );
+
 	public Game()
 	{
 		if ( IsServer )
@@ -51,6 +53,8 @@ public partial class Game : Sandbox.Game
 	{
 		var rank = c.GetScore<int>( "rank", 0 ) + 1;
 		c.SetScore( "rank", rank );
+
+		c.Pawn?.PlaySound( "Game.NextLevel" );
 
 		GiveWeapon( c.Pawn as Player, GetWeapon( rank ) );
 	}
