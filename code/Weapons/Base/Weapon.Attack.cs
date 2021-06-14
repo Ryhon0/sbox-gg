@@ -8,7 +8,7 @@ partial class Weapon
 			if ( ReloadMagazine )
 				if ( IsReloading ) return false;
 
-		var chambered = TimeSincePrimaryAttack > 60f / RPM;
+		var chambered = TimeSincePrimaryAttack > AttackInterval;
 		var shooting = IsAutomatic ?
 			Input.Down( InputButton.Attack1 ) :
 			Input.Pressed( InputButton.Attack1 );

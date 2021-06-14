@@ -38,6 +38,7 @@ public partial class Weapon : BaseWeapon
 	public virtual float Damage => 10f;
 	public virtual float HeadshotMultiplier => 2f;
 	public virtual int RPM => 600;
+	public float AttackInterval => 60f / RPM;
 	public virtual int BulletsPerShot => 1;
 	public virtual bool IsAutomatic => true;
 	public virtual bool IsMelee => false;
@@ -91,7 +92,7 @@ public partial class Weapon : BaseWeapon
 		{
 			base.Simulate( owner );
 
-			if ( ClipSize == 1 && TimeSincePrimaryAttack > 60f / RPM )
+			if ( ClipSize == 1 && TimeSincePrimaryAttack > AttackInterval )
 			{
 				Reload();
 			}
