@@ -47,13 +47,40 @@ public partial class Game : Sandbox.Game
 		{
 			var owner = p.GetClientOwner();
 
-			GivePoint( owner );
+			var score = GivePoint( owner );
+
+			using ( Prediction.Off() )
+			{
+				var c = args.Killer.GetClientOwner();
+				UpdateWeapons( To.Single( owner ), score );
+			}
+
+			if ( score == Weapons.Count )
+			{
+				using ( Prediction.Off() )
+				{
+					ShowWinner( owner.Name );
+				}
+			}
+
 		}
 
 		args.Killed.GetClientOwner()?.SetScore( "deaths", args.Killed.GetClientOwner().GetScore<int>( "deaths", 0 ) + 1 );
 	}
 
-	void GivePoint( Client c )
+	[ClientRpc]
+	void ShowWinner( string c )
+	{
+		GunGameHUD.Current.ShowWinner( c );
+	}
+
+	[ClientRpc]
+	void UpdateWeapons( int score )
+	{
+		GunGameHUD.Current.UpdateWeapons( score );
+	}
+
+	int GivePoint( Client c )
 	{
 		var rank = c.GetScore<int>( "rank", 0 ) + 1;
 		c.SetScore( "rank", rank );
@@ -61,16 +88,20 @@ public partial class Game : Sandbox.Game
 		c.Pawn?.PlaySound( "Game.NextLevel" );
 
 		GiveWeapon( c.Pawn as Player, GetWeapon( rank ) );
+		return rank;
 	}
 
 	public string GetWeapon( int rank )
 	{
-		var i = rank.Wrap( 0, Weapons.Count );
-		return Weapons[i];
+		var i = rank;rank.Wrap( 0, Weapons.Count );
+		if(Weapons.Count > i) return Weapons[i];
+		else return null;
 	}
 
 	void GiveWeapon( Player p, string weapon )
 	{
+		if(weapon == null) return;
+		
 		var d = p.Inventory.DropActive();
 		d?.Delete();
 

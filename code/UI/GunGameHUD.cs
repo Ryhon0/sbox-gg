@@ -1,50 +1,46 @@
-﻿using Sandbox;
-using Sandbox.UI;
+﻿using Sandbox.UI;
 
 public partial class GunGameHUD : Panel
 {
 	public static GunGameHUD Current;
 
-	WeaponIcon CurrentWeapon;
-	WeaponIcon NextWeapon;
+	public Panel CurrentWeapon { get; set; }
+	public Panel NextWeapon { get; set; }
+	public Label Winner { get; set; }
 
 	public GunGameHUD()
 	{
 		Current = this;
-		StyleSheet.Load( "/ui/GunGame.scss" );
 
-		CurrentWeapon = new WeaponIcon();
-		NextWeapon = new WeaponIcon();
+		SetTemplate( "/ui/GunGameHUD.html" );
+		StyleSheet.Load( "/ui/GunGameHUD.scss" );
 
-		NextWeapon.Parent = CurrentWeapon.Parent = this;
-		CurrentWeapon.AddClass( "current" );
-		NextWeapon.AddClass( "next" );
-
-
-		CurrentWeapon.Style.Set( "background-image", $"url(/ui/weapons/pistol.png)" );
-		NextWeapon.Style.Set( "background-image", $"url(/ui/weapons/smg.png)" );
-
+		UpdateWeapons( 0 );
 	}
 
-	public void UpdateWeapons( Client c )
+	public void UpdateWeapons( int score )
 	{
-		if ( c == null ) return;
-
-		var score = c.GetScore<int>( "rank", 0 ) + 1;
 		var game = (Game.Current as Game);
 
 		var current = game.GetWeapon( score );
 		var next = game.GetWeapon( score + 1 );
 
-		CurrentWeapon.Style.Set( "background-image", $"url(/ui/weapons/{current}.png)" );
-		NextWeapon.Style.Set( "background-image", $"url(/ui/weapons/{next}.png)" );
-	}
-}
+		if(current != null)
+		{
+			CurrentWeapon.Style.Set( "background-image", $"url(/ui/weapons/{current}.png)" );
 
-public class WeaponIcon : Panel
-{
-	public WeaponIcon()
+			if(next != null) NextWeapon.Style.Set( "background-image", $"url(/ui/weapons/{next}.png)" );
+			else NextWeapon.Style.Set( "background-image", $"url(/ui/win.png)" );
+		}
+		else
+		{
+			CurrentWeapon.Style.Set( "background-image", $"url(/ui/win.png)" );
+			NextWeapon.Parent.AddClass("hidden");
+		}
+	}
+
+	public void ShowWinner( string c )
 	{
-		AddClass( "weapon-icon" );
+		Winner.Text = $"🏆 {c} wins! 🏆";
 	}
 }

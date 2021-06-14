@@ -15,7 +15,7 @@ public partial class KillFeed : Sandbox.UI.KillFeed
 
 		var e = Current.AddChild<KillFeedEntry>();
 
-		e.AddClass( method );
+		e.Icon.Style.Set( "background-image", $"url(/ui/weapons/{method}.png)" );
 
 		e.Left.Text = left;
 		e.Left.SetClass( "me", lsteamid == (Local.SteamId) );
