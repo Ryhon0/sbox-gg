@@ -90,7 +90,34 @@ public partial class Weapon : BaseWeapon
 
 		if ( ReloadMagazine ? !IsReloading : true )
 		{
-			base.Simulate( owner );
+			{
+				if ( Input.Down( InputButton.Reload ) )
+				{
+					Reload();
+				}
+
+				//
+				// Reload could have deleted us
+				//
+				if ( !this.IsValid() )
+					return;
+
+				if ( CanPrimaryAttack() )
+				{
+					AttackPrimary();
+				}
+
+				//
+				// AttackPrimary could have deleted us
+				//
+				if ( !Owner.IsValid() )
+					return;
+
+				if ( CanSecondaryAttack() )
+				{
+					AttackSecondary();
+				}
+			}
 
 			if ( ClipSize == 1 && TimeSincePrimaryAttack > AttackInterval )
 			{

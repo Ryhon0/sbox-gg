@@ -22,13 +22,12 @@ partial class Weapon
 			ShootEffects();
 			PlaySound( ShootShound );
 			ShootBullet( 0, Force, Damage, 10f, 1 );
+			TimeSincePrimaryAttack = 0;
+			TimeSinceSecondaryAttack = 0;
 			return;
 		}
 		else
 		{
-			TimeSincePrimaryAttack = 0;
-			TimeSinceSecondaryAttack = 0;
-
 			if ( !TakeAmmo( 1 ) )
 			{
 				DryFire();
@@ -41,6 +40,9 @@ partial class Weapon
 			PlaySound( ShootShound );
 
 			ShootBullet( Spread, Force, Damage, IsMelee ? 20f : 3f, BulletsPerShot );
+
+			TimeSincePrimaryAttack = 0;
+			TimeSinceSecondaryAttack = 0;
 		}
 	}
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int count = 1 )
