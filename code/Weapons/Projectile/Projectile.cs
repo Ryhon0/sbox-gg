@@ -8,7 +8,7 @@ public class Projectile : ModelEntity
 	public virtual bool DestroyOnPlayerImpact => false;
 	public virtual bool StickInWalls => true;
 	public virtual bool HasGravity => false;
-
+	public Entity Weapon;
 
 	bool Stuck;
 
@@ -34,7 +34,7 @@ public class Projectile : ModelEntity
 
 		var damageInfo = DamageInfo.FromBullet( Position, Rotation.Forward * 200, Damage )
 													.WithAttacker( Owner )
-													.WithWeapon( this );
+													.WithWeapon( Weapon );
 		other.TakeDamage( damageInfo );
 
 		if ( StickInWalls )

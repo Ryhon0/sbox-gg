@@ -74,6 +74,7 @@ partial class Weapon
 				if ( p is Projectile pp )
 				{
 					pp.Damage = damage;
+					pp.Weapon = this;
 				}
 			}
 			else foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * (IsMelee ? 75 : 5000), bulletSize ) )
