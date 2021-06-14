@@ -6,12 +6,10 @@ using Sandbox.UI.Construct;
 public class Ammo : Panel
 {
 	public Label Weapon;
-	public Label Inventory;
 
 	public Ammo()
 	{
 		Weapon = Add.Label( "100", "weapon" );
-		Inventory = Add.Label( "100", "inventory" );
 	}
 
 	public override void Tick()
@@ -26,12 +24,11 @@ public class Ammo : Panel
 
 		if ( weapon.ClipSize == 1 )
 		{
-			Weapon.Text = Inventory.Text = "";
+			Weapon.Text = "";
 		}
 		else
 		{
-			Weapon.Text = $"{weapon.AmmoClip}";
-			Inventory.Text = $" / {weapon.ClipSize}";
+			Weapon.Text = $"{weapon.AmmoClip}  / {weapon.ClipSize}";
 		}
 	}
 }
