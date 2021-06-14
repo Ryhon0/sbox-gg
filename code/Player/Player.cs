@@ -6,6 +6,13 @@ public partial class Player : Sandbox.Player
 	{
 		SetModel( "models/citizen/citizen.vmdl" );
 
+		var outfit = new ModelEntity();
+
+		outfit.SetModel( "models/clothes/hotdog/hotdog.vmdl" );
+		outfit.SetParent( this, true );
+		outfit.EnableShadowInFirstPerson = true;
+		outfit.EnableHideInFirstPerson = true;
+
 		Controller = new WalkController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
