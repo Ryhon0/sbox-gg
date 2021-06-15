@@ -23,6 +23,14 @@
 ]
 
 // 
+// GrenadeLauncher : Weapon 
+// 
+@PointClass = gl : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
 // Knife : Weapon 
 // 
 @PointClass = knife : ""
@@ -71,9 +79,25 @@
 ]
 
 // 
+// ExplosiveBarrelProjectile : Projectile 
+// 
+@PointClass = explosive_barrel_projectile : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
 // CrossbowBolt : Projectile 
 // 
 @PointClass = xbow_bolt : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// PipeGrenadeProjectile : Projectile 
+// 
+@PointClass = pipe_grenade_projectile : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]

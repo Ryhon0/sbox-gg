@@ -93,15 +93,15 @@ public partial class Game : Sandbox.Game
 
 	public string GetWeapon( int rank )
 	{
-		var i = rank;rank.Wrap( 0, Weapons.Count );
-		if(Weapons.Count > i) return Weapons[i];
+		var i = rank; rank.Wrap( 0, Weapons.Count );
+		if ( Weapons.Count > i ) return Weapons[i];
 		else return null;
 	}
 
 	void GiveWeapon( Player p, string weapon )
 	{
-		if(weapon == null) return;
-		
+		if ( weapon == null ) return;
+
 		var d = p.Inventory.DropActive();
 		d?.Delete();
 

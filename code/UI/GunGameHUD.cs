@@ -25,17 +25,17 @@ public partial class GunGameHUD : Panel
 		var current = game.GetWeapon( score );
 		var next = game.GetWeapon( score + 1 );
 
-		if(current != null)
+		if ( current != null )
 		{
 			CurrentWeapon.Style.Set( "background-image", $"url(/ui/weapons/{current}.png)" );
 
-			if(next != null) NextWeapon.Style.Set( "background-image", $"url(/ui/weapons/{next}.png)" );
+			if ( next != null ) NextWeapon.Style.Set( "background-image", $"url(/ui/weapons/{next}.png)" );
 			else NextWeapon.Style.Set( "background-image", $"url(/ui/win.png)" );
 		}
 		else
 		{
 			CurrentWeapon.Style.Set( "background-image", $"url(/ui/win.png)" );
-			NextWeapon.Parent.AddClass("hidden");
+			NextWeapon.Parent.AddClass( "hidden" );
 		}
 	}
 
