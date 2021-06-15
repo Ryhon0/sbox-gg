@@ -6,7 +6,6 @@ public partial class Player
 	{
 		base.OnKilled();
 
-		Inventory.DropActive();
 		Inventory.DeleteContents();
 
 		BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
