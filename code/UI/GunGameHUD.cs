@@ -39,8 +39,8 @@ public partial class GunGameHUD : Panel
 		}
 	}
 
-	public void ShowWinner( string c )
+	public void ShowWinner( Player c )
 	{
-		Winner.Text = $"🏆 {c} wins! 🏆";
+		Winner.Text = $"🏆 {c.GetClientOwner().Name} wins! 🏆";
 	}
 }

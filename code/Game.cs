@@ -59,7 +59,7 @@ public partial class Game : Sandbox.Game
 			{
 				using ( Prediction.Off() )
 				{
-					ShowWinner( owner.Name );
+					ShowWinner( p );
 				}
 			}
 
@@ -69,9 +69,9 @@ public partial class Game : Sandbox.Game
 	}
 
 	[ClientRpc]
-	void ShowWinner( string c )
+	void ShowWinner( Player p )
 	{
-		GunGameHUD.Current.ShowWinner( c );
+		GunGameHUD.Current.ShowWinner( p );
 	}
 
 	[ClientRpc]
