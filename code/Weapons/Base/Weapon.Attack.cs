@@ -62,19 +62,21 @@ partial class Weapon
 			if ( Projectile != null )
 			{
 				if ( !IsServer ) break;
+
 				var p = Create( Projectile );
+
 				p.Owner = Owner;
 
-				p.Position = Owner.EyePos;
+				p.Position = Owner.EyePos + forward * 50;
 				p.Rotation = Owner.EyeRot;
 
-				var vel = forward * ProjectileSpeed;
-				p.Velocity = vel;
+				p.Velocity = forward * ProjectileSpeed;
 
 				if ( p is Projectile pp )
 				{
 					pp.Damage = damage;
 					pp.Weapon = this;
+
 				}
 			}
 			else foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * (IsMelee ? 75 : 5000), bulletSize ) )

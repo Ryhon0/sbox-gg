@@ -1,14 +1,17 @@
 ﻿using Sandbox;
 
-public class Projectile : ModelEntity
+public partial class Projectile : BasePhysics
 {
-	public virtual float Damage { get; set; } = 100;
-	public virtual string ModelPath => "weapons/rust_crossbow/rust_crossbow_bolt.vmdl";
+	[Net]
+	public float Damage { get; set; } = 60;
+	public virtual string ModelPath => "models/light_arrow.vmdl";
 	public virtual bool DestroyOnWorldImpact => false;
 	public virtual bool DestroyOnPlayerImpact => false;
 	public virtual bool StickInWalls => true;
 	public virtual bool HasGravity => false;
-	public Entity Weapon;
+	public virtual bool OverridePhysics => true;
+
+	public Weapon Weapon;
 
 	bool Stuck;
 
@@ -16,35 +19,41 @@ public class Projectile : ModelEntity
 	{
 		base.Spawn();
 		SetModel( ModelPath );
-		MoveType = HasGravity ? MoveType.MOVETYPE_FLYGRAVITY : MoveType.MOVETYPE_FLY;
+	}
+
+	[Event( "tick" )]
+	void Tick()
+	{
+		Velocity = 0;
 	}
 
 	public override void StartTouch( Entity other )
 	{
+
+	}
+
+
+	protected override void OnPhysicsCollision( CollisionEventData eventData )
+	{
+		var other = eventData.Entity;
+		if ( Stuck ) return;
+
 		base.StartTouch( other );
-		if ( !IsServer ) return;
 		if ( other == Owner ) return;
 
 		if ( other is Player p )
 		{
 			if ( DestroyOnPlayerImpact ) Explode();
-			if ( Owner is Player op ) op.DidDamage( Position, Damage, other.Health.LerpInverse( 100, 0 ) );
 		}
 		else if ( DestroyOnWorldImpact ) Explode();
 
-		var damageInfo = DamageInfo.FromBullet( Position, Rotation.Forward * 200, Damage )
-													.WithAttacker( Owner )
-													.WithWeapon( Weapon );
-		other.TakeDamage( damageInfo );
-
 		if ( StickInWalls )
 		{
-			Velocity = default;
-			MoveType = MoveType.None;
+			Stuck = true;
+			EnableAllCollisions = false;
+			var velocity = Rotation.Forward * 100000;
 
-			var velocity = Rotation.Forward * 50;
-
-			var start = Position;
+			var start = eventData.Pos;
 			var end = start + velocity;
 
 			var tr = Trace.Ray( start, end )
@@ -55,8 +64,17 @@ public class Projectile : ModelEntity
 					.Size( 1.0f )
 					.Run();
 
-			// TODO: Parent to bone so this will stick in the meaty heads
-			SetParent( other, tr.Bone );
+			if ( tr.Hit )
+			{
+				SetParent( other, tr.Bone );
+
+				var damageInfo = DamageInfo.FromBullet( Position, Rotation.Forward * 200, tr.HitboxIndex == 5 ? Damage * Weapon.HeadshotMultiplier : Damage )
+													.WithAttacker( Owner )
+													.WithWeapon( Weapon );
+				other.TakeDamage( damageInfo );
+
+				Position = tr.EndPos;
+			}
 			Owner = null;
 
 			//
@@ -65,15 +83,17 @@ public class Projectile : ModelEntity
 			tr.Normal = Rotation.Forward * -1;
 			tr.Surface.DoBulletImpact( tr );
 
-			Stuck = true;
-
 			// delete self in 60 seconds
 			_ = DeleteAsync( 60.0f );
 		}
+
+		if ( OverridePhysics ) return;
+		base.OnPhysicsCollision( eventData );
 	}
 
 	public void Explode()
 	{
 		Delete();
 	}
+
 }
