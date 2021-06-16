@@ -11,11 +11,17 @@
         </div>
     </div>
 
-    <div class="HeroPortrait">
-        <img @ref="heroImage" />
+
+    <div @ref="WinScreen" class="WinScreen">
+        <div @ref="HeroPortrait" class="HeroPortrait">
+            <img @ref="heroImage" />
+        </div>
+
+        <div class="winner center">
+            <text @ref="Winner"></text>
+        </div>
     </div>
 
-    <div class="winner center">
-        <text @ref="Winner"></text>
+    <div class="warning-container" @ref="LastWeaponWarningPanel">
     </div>
 </div>

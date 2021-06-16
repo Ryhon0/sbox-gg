@@ -3,62 +3,8 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System.Linq;
 
-public partial class GunGameHUD : Panel
+partial class GunGameHUD
 {
-	public static GunGameHUD Current;
-
-	public Panel CurrentWeapon { get; set; }
-	public Panel NextWeapon { get; set; }
-	public Label Winner { get; set; }
-
-	public GunGameHUD()
-	{
-		Current = this;
-
-		SetTemplate( "/ui/GunGameHUD.html" );
-		StyleSheet.Load( "/ui/GunGameHUD.scss" );
-	}
-
-	public void UpdateWeapons( int score )
-	{
-		var game = (Game.Current as Game);
-
-		var current = game.GetWeapon( score );
-		var next = game.GetWeapon( score + 1 );
-
-		if ( current != null )
-		{
-			NextWeapon.Parent.SetClass( "hidden", false );
-			CurrentWeapon.Style.Set( "background-image", $"url(/ui/weapons/{current}.png)" );
-
-			if ( next != null ) NextWeapon.Style.Set( "background-image", $"url(/ui/weapons/{next}.png)" );
-			else NextWeapon.Style.Set( "background-image", $"url(/ui/win.png)" );
-		}
-		else
-		{
-			CurrentWeapon.Style.Set( "background-image", $"url(/ui/win.png)" );
-			NextWeapon.Parent.SetClass( "hidden", true );
-		}
-	}
-
-	public void ShowWinner( Player c )
-	{
-		LoadWorld();
-		if ( c != null )
-		{
-			WinnerID = c.NetworkIdent;
-			heroImage.SetClass( "hidden", false );
-		}
-		else
-		{
-			WinnerID = 0;
-			heroImage.SetClass( "hidden", true );
-		}
-
-		Winner.Text = c == null ? "" : $"🏆 {c.GetClientOwner().Name} wins! 🏆";
-	}
-
-	// Player
 	private Angles CamAngles;
 	static SceneCapture sceneCapture;
 	private AnimSceneObject playerPreview;
