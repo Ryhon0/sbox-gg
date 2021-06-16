@@ -37,6 +37,10 @@ public partial class Game : Sandbox.Game
 		};
 	}
 
+	public override void DoPlayerNoclip( Client player )
+	{
+	}
+
 	public override void ClientJoined( Client client )
 	{
 		base.ClientJoined( client );
