@@ -55,3 +55,24 @@
 .hidden {
     opacity: 0;
 }
+
+.HeroPortrait {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+
+.hero-image {
+    width: 720px;
+    height: 720px;
+    justify-content: center;
+    align-items: center;
+}

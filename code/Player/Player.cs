@@ -15,7 +15,7 @@ public partial class Player : Sandbox.Player
 		outfit.EnableHideInFirstPerson = true;
 
 		Controller = new WalkController();
-		Animator = new StandardPlayerAnimator();
+		Animator = new PlayerAnimator();
 		Camera = new FirstPersonCamera();
 
 		EnableAllCollisions = true;
