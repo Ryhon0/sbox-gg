@@ -78,6 +78,10 @@ public partial class Game : Sandbox.Game
 					GameFinished = true;
 					TimeSinceRoundFinish = 0;
 
+				else if ( score == Weapons.Count - 1 )
+				{
+					using ( Prediction.Off() )
+						ShowLastWeaponWarning( To.Everyone, p );
 				}
 			}
 

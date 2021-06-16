@@ -14,4 +14,9 @@ partial class Game
 		GunGameHUD.Current.UpdateWeapons( score );
 	}
 
+	[ClientRpc]
+	void ShowLastWeaponWarning( Player p )
+	{
+		GunGameHUD.Current.ShowLastWeaponWarning( p );
+	}
 }
