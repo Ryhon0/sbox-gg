@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
+using System.Linq;
 
 [Library( "gg" )]
 public partial class Game : Sandbox.Game
@@ -144,11 +145,56 @@ public partial class Game : Sandbox.Game
 			(c.Pawn as Player).Respawn();
 		}
 
+		LoadWeaponRotation();
 		GameFinished = false;
 		UpdateWeapons( To.Everyone, 0 );
 		ShowWinner( To.Everyone, null );
 	}
 
+	void LoadWeaponRotation()
+	{
+		// This is so borken
+		/*
+        if ( !IsServer ) return;
+        if ( FileSystem.Data.DirectoryExists( "rotation" ) )
+        {
+            // Why is this not working AAAAA
+            //var files = FileSystem.Data.FindFile( "rotation", "*\\.gg$" );
+            if ( FileSystem.Data.FileExists( "rotation/default.gg" ) ) //files.Any() )
+            {
+                var file = "rotation/default.gg"; //"rotation/" + files.GetRandom();
+                var rot = FileSystem.Data.ReadAllText( file );
+                Weapons = rot.Split( ';' ).ToList();
+                if ( Weapons.Count < 2 )
+                {
+                    Log.Warning( $"File `{file}` doesn't have enough weapons, using default" );
+                }
+                else
+                {
+                    using ( Prediction.Off() )
+                        UpdateWeaponList( To.Everyone, rot );
+
+                    Log.Info( $"Loaded rotation from {file}" );
+                }
+            }
+            else
+            {
+                Log.Info( "No rotation file found, using default" );
+            }
+        }
+        else
+        {
+            FileSystem.Data.CreateDirectory( "rotation" );
+            FileSystem.Data.WriteAllText( "rotation/example_rotation.gg.example", string.Join( ';', Weapons ) );
+        }
+        */
+	}
+
+	[ClientRpc]
+	void UpdateWeaponList( string weapons )
+	{
+		(Game.Current as Game).Weapons = new List<string>();
+		(Game.Current as Game).Weapons = weapons.Split( ';' ).ToList();
 	}
 
 	public void RequestWeapon( Player p )
