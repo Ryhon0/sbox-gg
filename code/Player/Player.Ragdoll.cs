@@ -29,6 +29,7 @@ public partial class Player
 		// TODO - lets not make everyone write this shit out all the time
 		// maybe a CreateRagdoll<T>() on ModelEntity?
 		var ent = new ModelEntity();
+
 		ent.Position = Position;
 		ent.Rotation = Rotation;
 		ent.MoveType = MoveType.Physics;
@@ -38,6 +39,7 @@ public partial class Player
 		ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
 
 		ent.SetModel( GetModelName() );
+		ent.SetMaterialGroup( GetMaterialGroup() );
 		ent.CopyBonesFrom( this );
 		ent.TakeDecalsFrom( this );
 		ent.SetRagdollVelocityFrom( this );
