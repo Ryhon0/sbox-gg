@@ -40,7 +40,7 @@ public partial class Player : Sandbox.Player
 
 		// hack - hitbox 0 is head
 		// we should be able to get this from somewhere
-		if ( info.HitboxIndex == 0 )
+		if ( info.HitboxIndex == 5 )
 		{
 			info.Damage *= 2.0f;
 		}

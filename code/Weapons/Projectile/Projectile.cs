@@ -68,7 +68,7 @@ public partial class Projectile : BasePhysics
 			{
 				SetParent( other, tr.Bone );
 
-				var damageInfo = DamageInfo.FromBullet( Position, Rotation.Forward * 200, tr.HitboxIndex == 5 ? Damage * Weapon.HeadshotMultiplier : Damage )
+				var damageInfo = DamageInfo.FromBullet( Position, Rotation.Forward * 200, Damage )
 													.WithAttacker( Owner )
 													.WithWeapon( Weapon );
 				other.TakeDamage( damageInfo );

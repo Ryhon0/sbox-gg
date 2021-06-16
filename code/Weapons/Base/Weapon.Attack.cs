@@ -91,7 +91,7 @@ partial class Weapon
 					//
 					using ( Prediction.Off() )
 					{
-						var dmg = (!IsMelee && tr.HitboxIndex == 5) ? damage * HeadshotMultiplier : damage;
+						var dmg = damage;
 
 
 						var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, dmg / count )
