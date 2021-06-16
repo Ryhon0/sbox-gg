@@ -66,25 +66,30 @@ public partial class Game : Sandbox.Game
 			// Check for double skip when using shotguns
 			if ( args.Info.Weapon.ClassInfo.Name == GetWeapon( args.Info.Attacker.GetClientOwner().GetScore<int>( "rank" ) ) )
 			{
-				var c = args.Killer.GetClientOwner();
-				UpdateWeapons( To.Single( owner ), score );
-			}
+				var owner = p.GetClientOwner();
 
-			if ( score == Weapons.Count )
-			{
+				var score = GivePoint( owner );
+
 				using ( Prediction.Off() )
 				{
-					ShowWinner( p );
+					var c = args.Info.Attacker.GetClientOwner();
+					UpdateWeapons( To.Single( owner ), score );
+				}
+
+				if ( score == Weapons.Count )
+				{
+					using ( Prediction.Off() )
+						ShowWinner( To.Everyone, p );
+
 					GameFinished = true;
 					TimeSinceRoundFinish = 0;
-
+				}
 				else if ( score == Weapons.Count - 1 )
 				{
 					using ( Prediction.Off() )
 						ShowLastWeaponWarning( To.Everyone, p );
 				}
 			}
-
 		}
 
 		args.Killed.GetClientOwner()?.SetScore( "deaths", args.Killed.GetClientOwner().GetScore<int>( "deaths", 0 ) + 1 );
