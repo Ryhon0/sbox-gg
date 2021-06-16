@@ -19,6 +19,22 @@ public partial class Game : Sandbox.Game
 		}
 	}
 
+	public override void Spawn()
+	{
+		base.Spawn();
+		StartRound();
+		Weapons = new List<string>()
+		{
+			"vec45",
+			"smg",
+			"pistol",
+			"pump",
+			"pipe",
+			"aa12",
+			"knife",
+		};
+	}
+
 	public override void ClientJoined( Client client )
 	{
 		base.ClientJoined( client );
@@ -26,19 +42,15 @@ public partial class Game : Sandbox.Game
 		client.Pawn = player;
 		client.SetScore( "rank", 0 );
 		player.Respawn();
+		UpdateWeapons( To.Single( client ), 0 );
 	}
 
-	List<string> Weapons = new List<string>()
-	{
-		"vec45",
-		"smg",
-		"pistol",
-		"pump",
-		"pipe",
-		"aa12",
-		"xbow",
-		"knife",
-	};
+	[Net, Predicted]
+	List<string> Weapons { get; set; }
+
+	TimeSince TimeSinceRoundFinish;
+	float VictoryScreenLength = 5f;
+	bool GameFinished;
 
 	[Event( "player_killed" )]
 	void PlayerKilled( KillArgs args )
@@ -60,12 +72,25 @@ public partial class Game : Sandbox.Game
 				using ( Prediction.Off() )
 				{
 					ShowWinner( p );
+					GameFinished = true;
+					TimeSinceRoundFinish = 0;
+
 				}
 			}
 
 		}
 
 		args.Killed.GetClientOwner()?.SetScore( "deaths", args.Killed.GetClientOwner().GetScore<int>( "deaths", 0 ) + 1 );
+	}
+
+	[Event.Tick]
+	void Tick()
+	{
+		if ( GameFinished )
+		{
+			if ( TimeSinceRoundFinish > VictoryScreenLength )
+				StartRound();
+		}
 	}
 
 	[ClientRpc]
@@ -93,7 +118,7 @@ public partial class Game : Sandbox.Game
 
 	public string GetWeapon( int rank )
 	{
-		var i = rank; rank.Wrap( 0, Weapons.Count );
+		var i = rank;
 		if ( Weapons.Count > i ) return Weapons[i];
 		else return null;
 	}
@@ -110,12 +135,20 @@ public partial class Game : Sandbox.Game
 		}
 	}
 
-		var d = p.Inventory.DropActive();
-		d?.Delete();
+	void StartRound()
+	{
+		foreach ( var c in Client.All )
+		{
+			c.SetScore( "rank", 0 );
+			c.SetScore( "deaths", 0 );
+			(c.Pawn as Player).Respawn();
+		}
 
-		var w = Entity.Create( weapon );
-		p.Inventory.Add( w );
-		p.ActiveChild = w;
+		GameFinished = false;
+		UpdateWeapons( To.Everyone, 0 );
+		ShowWinner( To.Everyone, null );
+	}
+
 	}
 
 	public void RequestWeapon( Player p )

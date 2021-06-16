@@ -4,6 +4,7 @@ public partial class Player : Sandbox.Player
 {
 	public override void Respawn()
 	{
+		Inventory.DeleteContents();
 		SetModel( "models/citizen/citizen.vmdl" );
 		this.SetMaterialGroup( Rand.Int( 0, 1 ) == 0 ? 0 : 3 );
 
