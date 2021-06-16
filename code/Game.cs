@@ -96,18 +96,6 @@ public partial class Game : Sandbox.Game
 		}
 	}
 
-	[ClientRpc]
-	void ShowWinner( Player p )
-	{
-		GunGameHUD.Current.ShowWinner( p );
-	}
-
-	[ClientRpc]
-	void UpdateWeapons( int score )
-	{
-		GunGameHUD.Current.UpdateWeapons( score );
-	}
-
 	int GivePoint( Client c )
 	{
 		var rank = c.GetScore<int>( "rank", 0 ) + 1;
