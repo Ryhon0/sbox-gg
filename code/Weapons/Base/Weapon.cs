@@ -37,7 +37,7 @@ public partial class Weapon : BaseWeapon
 
 	public virtual float Damage => 10f;
 	public virtual int RPM => 600;
-	public float AttackInterval => 60f / RPM;
+	public virtual float AttackInterval => 60f / RPM;
 	public virtual int BulletsPerShot => 1;
 	public virtual bool IsAutomatic => true;
 	public virtual bool IsMelee => false;
