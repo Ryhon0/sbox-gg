@@ -61,13 +61,10 @@ public partial class Game : Sandbox.Game
 	[Event( "player_killed" )]
 	void PlayerKilled( KillArgs args )
 	{
-		if ( args.Killer is Player p )
+		if ( args.Info.Attacker is Player p )
 		{
-			var owner = p.GetClientOwner();
-
-			var score = GivePoint( owner );
-
-			using ( Prediction.Off() )
+			// Check for double skip when using shotguns
+			if ( args.Info.Weapon.ClassInfo.Name == GetWeapon( args.Info.Attacker.GetClientOwner().GetScore<int>( "rank" ) ) )
 			{
 				var c = args.Killer.GetClientOwner();
 				UpdateWeapons( To.Single( owner ), score );

@@ -76,11 +76,11 @@ public partial class Player : Sandbox.Player
 
 public class KillArgs
 {
-	public Entity Killer;
+	public DamageInfo Info;
 	public Player Killed;
-	public KillArgs( Entity killer, Player killed )
+	public KillArgs( DamageInfo info, Player killed )
 	{
-		Killer = killer;
+		Info = info;
 		Killed = killed;
 	}
 }

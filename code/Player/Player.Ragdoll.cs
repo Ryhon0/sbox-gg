@@ -16,7 +16,7 @@ public partial class Player
 		EnableAllCollisions = false;
 		EnableDrawing = false;
 
-		Event.Run( "player_killed", new KillArgs( LastAttacker, this ) );
+		Event.Run( "player_killed", new KillArgs( LastDamage, this ) );
 	}
 
 	// TODO - make ragdolls one per entity
