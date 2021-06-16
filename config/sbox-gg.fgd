@@ -23,6 +23,14 @@
 ]
 
 // 
+// DoubleBarrelShotgun : Weapon 
+// 
+@PointClass = db : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
 // GrenadeLauncher : Weapon 
 // 
 @PointClass = gl : ""

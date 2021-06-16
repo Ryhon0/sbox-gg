@@ -32,6 +32,7 @@ public partial class Game : Sandbox.Game
 			"pump",
 			"pipe",
 			"aa12",
+			"db",
 			"knife",
 		};
 	}
