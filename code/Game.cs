@@ -100,7 +100,15 @@ public partial class Game : Sandbox.Game
 
 	void GiveWeapon( Player p, string weapon )
 	{
-		if ( weapon == null ) return;
+		if ( weapon == null || p == null ) return;
+
+		if ( !(p.Inventory as GGInventory).IsCarryingId( weapon ) )
+		{
+			p.Inventory.DeleteContents();
+			var w = Entity.Create( weapon );
+			p.Inventory.Add( w, true );
+		}
+	}
 
 		var d = p.Inventory.DropActive();
 		d?.Delete();

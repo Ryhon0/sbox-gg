@@ -45,4 +45,9 @@ partial class GGInventory : BaseInventory
 	{
 		return List.Any( x => x.GetType() == t );
 	}
+
+	public bool IsCarryingId( string id )
+	{
+		return List.Any( x => x.EntityName == id );
+	}
 }
