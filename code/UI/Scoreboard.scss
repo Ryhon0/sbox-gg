@@ -29,6 +29,12 @@
 	{
 		flex-grow: 1;
 	}
+    .avatar {
+        height: 32px;
+        width: 32px;
+        margin-right: 6px;
+        bottom: 2px;
+    }
 
 	.deaths, .kills, .ping, .rank
 	{

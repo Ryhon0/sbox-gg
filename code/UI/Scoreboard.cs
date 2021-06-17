@@ -26,9 +26,9 @@ public class Scoreboard : Sandbox.UI.Scoreboard<ScoreboardEntry>
 
 		Canvas.SortChildren( c =>
 		{
-			var snd = c.GetChild( 1 );
+			var snd = c.GetChild( 2 );
 			var l = (snd as Label);
-			int.TryParse( l.Text, out int rank );
+			int.TryParse( l?.Text ?? "0", out int rank );
 			return -rank;
 		} );
 	}
@@ -43,23 +43,27 @@ public class Scoreboard : Sandbox.UI.Scoreboard<ScoreboardEntry>
 public class ScoreboardEntry : Sandbox.UI.ScoreboardEntry
 {
 	public Label Rank;
+	public Image Avatar;
 
 	public ScoreboardEntry()
 	{
+		PlayerName.Delete();
 		Kills.Delete();
 		Deaths.Delete();
 		Ping.Delete();
 
-
-		Rank = Add.Label( "", "rank" );
-		Deaths = Add.Label( "", "deaths" );
-		Ping = Add.Label( "", "ping" );
+		Avatar = Add.Image( "avatar:76561198099710884", "avatar" );
+		PlayerName = Add.Label( "Player Name", "name" );
+		Rank = Add.Label( "0", "rank" );
+		Deaths = Add.Label( "0", "deaths" );
+		Ping = Add.Label( "0", "ping" );
 	}
 
 	public override void UpdateFrom( PlayerScore.Entry entry )
 	{
 		base.UpdateFrom( entry );
 
+		Avatar.SetTexture( $"avatar:{entry.Get<ulong>( "steamid", 0 )}" );
 		Rank.Text = entry.Get<int>( "rank", 0 ).ToString();
 
 		SetClass( "me", Local.Client != null && entry.Get<ulong>( "steamid", 0 ) == Local.Client.SteamId );
