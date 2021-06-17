@@ -40,21 +40,24 @@ public partial class Player : Sandbox.Player
 	{
 		LastDamage = info;
 
-		if ( !(info.Weapon as Weapon)?.IsMelee ?? false )
+		if ( info.Attacker != null )
 		{
-			// Check for headshot
-			if ( info.HitboxIndex == 5 )
+			if ( !(info.Weapon as Weapon)?.IsMelee ?? false )
 			{
-				info.Damage *= 2.0f;
+				// Check for headshot
+				if ( info.HitboxIndex == 5 )
+				{
+					info.Damage *= 2.0f;
+				}
 			}
-		}
-		else
-		{
-			// Check for backstab
-			var facing = Rotation.Forward;
-			var attackedfrom = info.Attacker.Rotation.Forward;
-			var dot = facing.Dot( attackedfrom );
-			if ( dot > 0 ) info.Damage *= 2;
+			else
+			{
+				// Check for backstab
+				var facing = Rotation.Forward;
+				var attackedfrom = info.Attacker.Rotation.Forward;
+				var dot = facing.Dot( attackedfrom );
+				if ( dot > 0 ) info.Damage *= 2;
+			}
 		}
 
 		base.TakeDamage( info );
