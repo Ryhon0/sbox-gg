@@ -52,7 +52,7 @@ public partial class Game : Sandbox.Game
 	}
 
 	[Net, Predicted]
-	List<string> Weapons { get; set; }
+	public List<string> Weapons { get; set; }
 
 	TimeSince TimeSinceRoundFinish;
 	float VictoryScreenLength = 5f;

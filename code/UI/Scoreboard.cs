@@ -67,5 +67,9 @@ public class ScoreboardEntry : Sandbox.UI.ScoreboardEntry
 		Rank.Text = entry.Get<int>( "rank", 0 ).ToString();
 
 		SetClass( "me", Local.Client != null && entry.Get<ulong>( "steamid", 0 ) == Local.Client.SteamId );
+		SetClass( "lastlevel", entry.Get<int>( "rank", 0 ) == (Game.Current as Game)?.Weapons.Count - 1 );
+		SetClass( "winner",
+			(Game.Current as Game).Weapons?.Count > 1 &&
+			entry.Get<int>( "rank", 0 ) == (Game.Current as Game).Weapons?.Count );
 	}
 }
