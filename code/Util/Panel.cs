@@ -28,11 +28,11 @@ public static class PanelExtension
 	{
 		var screenpos = pos.ToScreen();
 
-		if ( screenpos.z < 0 )
+		if ( screenpos.Z < 0 )
 			return;
 
-		panel.Style.Left = Length.Fraction( screenpos.x );
-		panel.Style.Top = Length.Fraction( screenpos.y );
+		panel.Style.Left = Length.Fraction( screenpos.X );
+		panel.Style.Top = Length.Fraction( screenpos.Y );
 		panel.Style.Dirty();
 	}
 }

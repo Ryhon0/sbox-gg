@@ -1,6 +1,5 @@
 ﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using System;
 using System.Threading.Tasks;
 
@@ -34,11 +33,11 @@ public partial class DamageIndicator : Panel
 		public override void Tick()
 		{
 			base.Tick();
-			
-			var wpos = CurrentView.Rotation.Inverse * ( Position.WithZ( 0 ) - CurrentView.Position.WithZ( 0 )).Normal;
+
+			var wpos = CurrentView.Rotation.Inverse * (Position.WithZ( 0 ) - CurrentView.Position.WithZ( 0 )).Normal;
 			wpos = wpos.WithZ( 0 ).Normal;
 
-			var angle = MathF.Atan2( wpos.y, -1.0f * wpos.x );
+			var angle = MathF.Atan2( wpos.Y, -1.0f * wpos.X );
 
 			var pt = new PanelTransform();
 
@@ -48,7 +47,7 @@ public partial class DamageIndicator : Panel
 
 			Style.Transform = pt;
 			Style.Dirty();
-			
+
 		}
 
 		async Task Lifetime()
@@ -62,5 +61,3 @@ public partial class DamageIndicator : Panel
 
 	}
 }
-
-
