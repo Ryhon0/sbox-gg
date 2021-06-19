@@ -26,13 +26,16 @@ public partial class Game : Sandbox.Game
 		StartRound();
 		Weapons = new List<string>()
 		{
-			"vec45",
-			"smg",
 			"pistol",
-			"pump",
-			"pipe",
+			"smg",
+			"vec45",
+			"m16",
 			"aa12",
+			"pump",
+			"gl",
 			"db",
+			"xbow",
+			"pipe",
 			"knife",
 		};
 	}
