@@ -4,6 +4,8 @@ partial class Weapon
 {
 	public override bool CanPrimaryAttack()
 	{
+		if ( Owner == null || Owner.Health <= 0 ) return false;
+
 		if ( !IsMelee )
 			if ( ReloadMagazine )
 				if ( IsReloading ) return false;
@@ -15,39 +17,104 @@ partial class Weapon
 
 		return chambered && shooting;
 	}
-	public override void AttackPrimary()
+
+	public override bool CanSecondaryAttack()
 	{
-		if ( IsMelee )
+		if ( Owner == null || Owner.Health <= 0 ) return false;
+
+		return base.CanSecondaryAttack();
+	}
+
+	public override async void AttackPrimary()
+	{
+		if ( AmmoClip <= 0 )
 		{
-			ShootEffects();
-			PlaySound( ShootShound );
-			ShootBullet( 0, Force, Damage, 10f, 1 );
-			TimeSincePrimaryAttack = 0;
-			TimeSinceSecondaryAttack = 0;
+			DryFire();
 			return;
 		}
-		else
+
+		var ShotsRemaining = ShotsPerTriggerPull;
+
+		while ( ShotsRemaining > 0 && AmmoClip > 0 )
 		{
-			if ( !TakeAmmo( 1 ) )
+			if ( Owner == null ) return;
+			ShotsRemaining--;
+
+			if ( IsMelee )
 			{
-				DryFire();
-				return;
+				ShootEffects();
+				PlaySound( ShootShound );
+				ShootBullet( 0, Force, Damage, 10f, 1 );
+			}
+			else
+			{
+
+				using ( Prediction.Off() )
+				{
+					if ( TakeAmmo( 1 ) )
+					{
+						IsReloading = false;
+
+						ShootEffects();
+						PlaySound( ShootShound );
+
+						if ( Projectile != null ) ShootProjectile( Projectile, Spread, ProjectileSpeed, Force, Damage, BulletsPerShot );
+						else ShootBullet( Spread, Force, Damage, BulletSize, BulletsPerShot );
+					}
+				}
 			}
 
-			IsReloading = false;
+			if ( ShotsRemaining > 0 && AmmoClip > 0 ) await Task.DelaySeconds( BurstInterval );
 
-			ShootEffects();
-			PlaySound( ShootShound );
-
-			ShootBullet( Spread, Force, Damage, IsMelee ? 20f : 3f, BulletsPerShot );
-
-			TimeSincePrimaryAttack = 0;
-			TimeSinceSecondaryAttack = 0;
 		}
 	}
-	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int count = 1 )
-	{
 
+	public void ShootProjectile( string projectile, float spread, float projectilespeed, float force, float damage, int count = 1 )
+	{
+		if ( !IsServer ) return;
+		for ( int i = 0; i < BulletsPerShot; i++ )
+		{
+			if ( Owner == null ) continue;
+
+			var forward = Owner.EyeRot.Forward;
+			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
+			forward = forward.Normal;
+
+			var p = Create( projectile );
+			p.Owner = Owner;
+
+			p.Position = GetProjectilePosition();
+			p.Rotation = Owner.EyeRot;
+
+			var vel = forward * projectilespeed;
+			p.Velocity = vel;
+
+			if ( p is Projectile pp )
+			{
+				pp.Damage = damage;
+				pp.Force = force;
+				pp.Weapon = this;
+			}
+		}
+	}
+
+	Vector3 GetProjectilePosition( float MaxDistance = 30 )
+	{
+		var start = Owner.EyePos;
+		var end = start + Owner.EyeRot.Forward * MaxDistance;
+		var tr = Trace.Ray( start, end )
+					.UseHitboxes()
+					.HitLayer( CollisionLayer.Water, false )
+					.Ignore( Owner )
+					.Ignore( this )
+					.Size( 1.0f )
+					.Run();
+		TraceBullet( start, end );
+		return tr.Hit ? tr.EndPos : end;
+	}
+
+	public void ShootBullet( float spread, float force, float damage, float bulletSize, int count = 1 )
+	{
 		//
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
@@ -59,58 +126,38 @@ partial class Weapon
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
-			if ( Projectile != null )
+			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * Range, bulletSize ) )
 			{
-				if ( !IsServer ) break;
+				if ( tr.Hit ) tr.Surface.DoBulletImpact( tr );
 
-				var p = Create( Projectile );
+				if ( !IsServer ) continue;
+				if ( !tr.Entity.IsValid() ) continue;
 
-				p.Owner = Owner;
-
-				p.Position = Owner.EyePos + forward * 50;
-				p.Rotation = Owner.EyeRot;
-
-				p.Velocity = forward * ProjectileSpeed;
-
-				if ( p is Projectile pp )
+				//
+				// We turn predictiuon off for this, so any exploding effects don't get culled etc
+				//
+				using ( Prediction.Off() )
 				{
-					pp.Damage = damage;
-					pp.Weapon = this;
+					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage / count )
+						.UsingTraceResult( tr )
+						.WithAttacker( Owner )
+						.WithWeapon( this );
 
+					tr.Entity.TakeDamage( damageInfo );
 				}
 			}
-			else foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * (IsMelee ? 75 : 5000), bulletSize ) )
-				{
-					if ( tr.Hit ) tr.Surface.DoBulletImpact( tr );
-
-					if ( !IsServer ) continue;
-					if ( !tr.Entity.IsValid() ) continue;
-
-					//
-					// We turn predictiuon off for this, so any exploding effects don't get culled etc
-					//
-					using ( Prediction.Off() )
-					{
-						var dmg = damage;
-
-
-						var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, dmg / count )
-							.UsingTraceResult( tr )
-							.WithAttacker( Owner )
-							.WithWeapon( this );
-
-						tr.Entity.TakeDamage( damageInfo );
-					}
-				}
 		}
 	}
+
 	[ClientRpc]
 	protected virtual void ShootEffects()
 	{
 		Host.AssertClient();
 
-		if ( Projectile == null && !IsMelee )
-			Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
+		if ( MuzzleFlash != null )
+			Particles.Create( MuzzleFlash, EffectEntity, "muzzle" );
+		if ( Brass != null )
+			Particles.Create( Brass, EffectEntity, "ejection_point" );
 
 		if ( IsLocalPawn )
 		{

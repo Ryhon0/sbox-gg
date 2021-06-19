@@ -1,13 +1,5 @@
 ﻿using Sandbox;
 
-public enum FireType
-{
-	SemiAuto,
-	FullAuto,
-	Burst3,
-	Burst2
-}
-
 public enum CrosshairType
 {
 	Dot,
@@ -16,13 +8,12 @@ public enum CrosshairType
 	None,
 	Cross
 }
-
 public partial class Weapon : BaseWeapon
 {
 	// Networked variables
 	[Net, Predicted]
 	public int AmmoClip { get; set; }
-	[Net, Predicted]
+	[Net]
 	public TimeSince TimeSinceReload { get; set; }
 	[Net, Predicted]
 	public bool IsReloading { get; set; }
@@ -33,6 +24,7 @@ public partial class Weapon : BaseWeapon
 	public virtual int ClipSize => 1;
 	public virtual bool ReloadMagazine => true;
 	public virtual float ReloadTime => 2f;
+	public virtual int AmmoType => 0;
 
 	// Projectile specific
 	public virtual string Projectile => null;
@@ -46,7 +38,6 @@ public partial class Weapon : BaseWeapon
 	public virtual bool IsMelee => false;
 	public virtual float Force => 0.5f;
 	public virtual float Damage => 10f;
-	public virtual int BulletsPerShot => 1;
 	public virtual bool IsAutomatic => true;
 	public virtual int BulletsPerShot => 1;
 	public virtual float Spread => 0.1f;
@@ -54,6 +45,10 @@ public partial class Weapon : BaseWeapon
 	public virtual float AttackInterval => 60f / RPM;
 	public virtual float DeployTime => .75f;
 
+	// Burst fire
+	public virtual int ShotsPerTriggerPull => 1;
+	public virtual float BurstRPM => RPM;
+	public virtual float BurstInterval => 60f / BurstRPM;
 
 	// Audio/Visual
 	public virtual int HoldType => 1;
@@ -61,6 +56,26 @@ public partial class Weapon : BaseWeapon
 	public virtual string ShootShound => "rust_pistol.shoot";
 	public virtual string WorldModelPath => "weapons/rust_pistol/rust_pistol.vmdl";
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+	public virtual string MuzzleFlash => "particles/pistol_muzzleflash.vpcf";
+	public virtual string Brass => "particles/pistol_ejectbrass.vpcf";
+
+	public int AvailableAmmo
+	{
+		get
+		{
+			if ( Owner is PlayerWithAmmo p )
+				return p.AmmoCount( AmmoType );
+
+			return ClipSize;
+		}
+		set
+		{
+			if ( Owner is PlayerWithAmmo p )
+			{
+				p.SetAmmo( AmmoType, value );
+			}
+		}
+	}
 
 	public override void ActiveStart( Entity ent )
 	{
@@ -98,34 +113,7 @@ public partial class Weapon : BaseWeapon
 
 		if ( ReloadMagazine ? !IsReloading : true )
 		{
-			{
-				if ( Input.Down( InputButton.Reload ) )
-				{
-					Reload();
-				}
-
-				//
-				// Reload could have deleted us
-				//
-				if ( !this.IsValid() )
-					return;
-
-				if ( CanPrimaryAttack() )
-				{
-					AttackPrimary();
-				}
-
-				//
-				// AttackPrimary could have deleted us
-				//
-				if ( !Owner.IsValid() )
-					return;
-
-				if ( CanSecondaryAttack() )
-				{
-					AttackSecondary();
-				}
-			}
+			base.Simulate( owner );
 
 			if ( ClipSize == 1 && TimeSincePrimaryAttack > AttackInterval )
 			{

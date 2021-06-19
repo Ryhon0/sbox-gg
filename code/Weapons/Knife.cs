@@ -14,5 +14,7 @@ public class Knife : Weapon
 	public override string ShootShound => "Knife.Attack";
 	public override string WorldModelPath => null;
 	public override string ViewModelPath => "weapons/rust_boneknife/v_rust_boneknife.vmdl";
+	public override string Brass => null;
+	public override string MuzzleFlash => null;
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
 }

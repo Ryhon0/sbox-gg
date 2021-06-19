@@ -13,6 +13,7 @@ public class PumpShotgun : Weapon
 	public override string ShootShound => "rust_pumpshotgun.shoot";
 	public override string WorldModelPath => "weapons/rust_pumpshotgun/rust_pumpshotgun.vmdl";
 	public override string ViewModelPath => "weapons/rust_pumpshotgun/v_rust_pumpshotgun.vmdl";
+	public override string Brass => null;
 	public override bool ReloadMagazine => false;
 	public override CrosshairType CrosshairType => CrosshairType.Sides;
 	public override int HoldType => 3;

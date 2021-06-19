@@ -8,10 +8,13 @@ public class Crossbow : Weapon
 	public override int RPM => 250;
 	public override float ReloadTime => 3;
 	public override float Spread => .1f;
+	public override float Spread => 0f;
 	public override string ShootShound => "Crossbow.Attack";
 	public override string WorldModelPath => "weapons/rust_crossbow/rust_crossbow.vmdl";
 	public override string ViewModelPath => "weapons/rust_crossbow/v_rust_crossbow.vmdl";
 	public override string Projectile => "xbow_bolt";
+	public override string Brass => null;
+	public override string MuzzleFlash => null;
 	public override float ProjectileSpeed => 5000;
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
 
