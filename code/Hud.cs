@@ -15,7 +15,7 @@ public partial class MinimalHudEntity : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<DamageIndicator>();
 		RootPanel.AddChild<HitIndicator>();
 
-		RootPanel.AddChild<ChatBox>();
+		RootPanel.AddChild<ClassicChatBox>();
 		RootPanel.AddChild<KillFeed>();
 		RootPanel.AddChild<Scoreboard>();
 		RootPanel.AddChild<VoiceList>();

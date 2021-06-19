@@ -1,0 +1,181 @@
+﻿classicchatbox {
+    position: absolute;
+    bottom: 200px;
+    left: 100px;
+    z-index: 100;
+    flex-direction: column;
+    width: 500px;
+    font-family: Poppins;
+    font-size: 13px;
+
+    .chatbox-panel {
+        opacity: 0;
+
+        textentry {
+            background-color: black;
+            opacity: 0;
+            color: white;
+            padding: 15px;
+            background-color: rgba( black, 0.8 );
+            font-size: 14px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            width: 80%;
+        }
+
+        button {
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+
+            &.emoji {
+                background-color: #00ff21;
+            }
+
+            &.send {
+                color: white;
+                background-color: #0094ff;
+            }
+        }
+
+        .emoji-canvas {
+            opacity: 0;
+            position: absolute;
+            background-color: black;
+            bottom: 49px;
+            left: 0px;
+            width: 512px;
+            height: 256px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: start;
+            transition: all 0.1s ease-out;
+            transform: scale(2);
+            overflow: scroll;
+            scroll-behavior: smooth;
+
+            &.open {
+                opacity: 1;
+                transition: all 0.2s ease-out;
+                transform: scale(1);
+            }
+
+            .emoji {
+                background-color: white;
+                color: black;
+                margin: 5px;
+                height: 48px;
+                width: 48px;
+                transition: all 0.2s ease-out;
+                color: white;
+                font-size: 24px;
+
+                &:active {
+                    transition: all 0.2s ease-out;
+                    font-size: 24px;
+                }
+
+                &:hover {
+                    transition: all 0.2s ease-out;
+                    font-size: 32px;
+                }
+            }
+        }
+    }
+
+    .classicchat_canvas {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    &.open {
+        pointer-events: all;
+
+        .chatbox-panel {
+            opacity: 1;
+        }
+
+        textentry {
+            opacity: 1;
+        }
+    }
+}
+
+classicchatentry {
+    background-color: rgba( black, 0.8 );
+    margin-bottom: 5px;
+    color: white;
+    transition: all 0.1s ease-out;
+    opacity: 1;
+    max-height: 200px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 12px;
+    padding-left: 45px;
+    min-height: 47px;
+    max-width: 100%;
+    transform: scale( 1 );
+
+    &:intro {
+        max-height: 0px;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        opacity: 0;
+        transform: scale( 0 );
+    }
+
+    &.hide {
+        opacity: 0;
+        transition: all 1s ease-out;
+    }
+
+    &.expired {
+        opacity: 0;
+        transition: all 0.2s ease-out;
+    }
+
+    &.show {
+        opacity: 1;
+        transition: all 0.2s ease-out;
+    }
+
+    &:outro {
+        opacity: 0;
+        transition: all 2s ease-out;
+    }
+
+    image {
+        width: 32px;
+        height: 32px;
+        min-height: 32px;
+        border-radius: 100px;
+        position: absolute;
+        left: 6px;
+        top: 6px;
+    }
+
+    .name {
+        padding-right: 20px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #c0fb2e;
+        //  background-color: green;
+        flex-shrink: 0;
+    }
+
+    .message {
+        color: #ccc;
+        font-size: 14px;
+        //  background-color: red;
+        flex-grow: 1;
+    }
+
+    &.noname .name {
+        display: none;
+    }
+
+    &.noavatar image {
+        display: none;
+    }
+}
