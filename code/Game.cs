@@ -64,7 +64,8 @@ public partial class Game : Sandbox.Game
 		if ( args.Info.Attacker is Player p )
 		{
 			// Check for double skip when using shotguns
-			if ( args.Info.Weapon.ClassInfo.Name == GetWeapon( args.Info.Attacker.GetClientOwner().GetScore<int>( "rank" ) ) )
+			if ( args.Info.Weapon.ClassInfo.Name == GetWeapon( args.Info.Attacker.GetClientOwner().GetScore<int>( "rank" ) ) &&
+				args.Info.Attacker != args.Killed )
 			{
 				var owner = p.GetClientOwner();
 
