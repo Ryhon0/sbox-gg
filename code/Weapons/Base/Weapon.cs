@@ -113,7 +113,36 @@ public partial class Weapon : BaseWeapon
 
 		if ( ReloadMagazine ? !IsReloading : true )
 		{
-			base.Simulate( owner );
+			{
+				if ( CanReload() )
+				{
+					Reload();
+				}
+
+				//
+				// Reload could have deleted us
+				//
+				if ( !this.IsValid() )
+					return;
+
+				if ( CanPrimaryAttack() )
+				{
+					AttackPrimary();
+					TimeSincePrimaryAttack = 0;
+				}
+
+				//
+				// AttackPrimary could have deleted us
+				//
+				if ( !owner.IsValid() )
+					return;
+
+				if ( CanSecondaryAttack() )
+				{
+					AttackSecondary();
+					TimeSinceSecondaryAttack = 0;
+				}
+			}
 
 			if ( ClipSize == 1 && TimeSincePrimaryAttack > AttackInterval )
 			{
