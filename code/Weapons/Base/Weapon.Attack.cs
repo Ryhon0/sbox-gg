@@ -1,10 +1,15 @@
 ﻿using Sandbox;
+using System;
 
 partial class Weapon
 {
 	public override bool CanPrimaryAttack()
 	{
 		if ( Owner == null || Owner.Health <= 0 ) return false;
+
+		if ( BurstShotsRemaining > 0 && TimeSincePrimaryAttack > BurstInterval ) return true;
+
+		if ( AmmoClip <= 0 ) return Input.Pressed( InputButton.Attack1 );
 
 		if ( !IsMelee )
 			if ( ReloadMagazine )
@@ -25,47 +30,42 @@ partial class Weapon
 		return base.CanSecondaryAttack();
 	}
 
+	public int BurstShotsRemaining = 0;
+	public int ShotsThisBurst => Math.Min( AmmoClip, ShotsPerTriggerPull );
+
 	public override async void AttackPrimary()
 	{
 		if ( AmmoClip <= 0 )
 		{
 			DryFire();
+			BurstShotsRemaining = 0;
 			return;
 		}
 
-		var ShotsRemaining = ShotsPerTriggerPull;
-
-		while ( ShotsRemaining > 0 && AmmoClip > 0 )
+		if ( BurstShotsRemaining > 0 )
 		{
-			if ( Owner == null ) return;
-			ShotsRemaining--;
+			BurstShotsRemaining--;
+		}
+		else BurstShotsRemaining = ShotsThisBurst - 1;
 
-			if ( IsMelee )
+		if ( IsMelee )
+		{
+			if ( IsClient ) ShootEffects();
+			PlaySound( ShootShound );
+			ShootBullet( 0, Force, Damage, 10f, 1 );
+		}
+		else
+		{
+			if ( TakeAmmo( 1 ) )
 			{
+				IsReloading = false;
+
 				ShootEffects();
 				PlaySound( ShootShound );
-				ShootBullet( 0, Force, Damage, 10f, 1 );
+
+				if ( Projectile != null ) ShootProjectile( Projectile, Spread, ProjectileSpeed, Force, Damage, BulletsPerShot );
+				else ShootBullet( Spread, Force, Damage, BulletSize, BulletsPerShot );
 			}
-			else
-			{
-
-				using ( Prediction.Off() )
-				{
-					if ( TakeAmmo( 1 ) )
-					{
-						IsReloading = false;
-
-						ShootEffects();
-						PlaySound( ShootShound );
-
-						if ( Projectile != null ) ShootProjectile( Projectile, Spread, ProjectileSpeed, Force, Damage, BulletsPerShot );
-						else ShootBullet( Spread, Force, Damage, BulletSize, BulletsPerShot );
-					}
-				}
-			}
-
-			if ( ShotsRemaining > 0 && AmmoClip > 0 ) await Task.DelaySeconds( BurstInterval );
-
 		}
 	}
 
@@ -159,7 +159,7 @@ partial class Weapon
 		if ( Brass != null )
 			Particles.Create( Brass, EffectEntity, "ejection_point" );
 
-		if ( IsLocalPawn )
+		if ( Owner == Local.Pawn )
 		{
 			new Sandbox.ScreenShake.Perlin();
 		}

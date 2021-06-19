@@ -13,7 +13,7 @@ public partial class Weapon : BaseWeapon
 	// Networked variables
 	[Net, Predicted]
 	public int AmmoClip { get; set; }
-	[Net]
+	[Net, Predicted]
 	public TimeSince TimeSinceReload { get; set; }
 	[Net, Predicted]
 	public bool IsReloading { get; set; }
