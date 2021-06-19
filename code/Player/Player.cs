@@ -15,7 +15,7 @@ public partial class Player : Sandbox.Player
 		outfit.EnableShadowInFirstPerson = true;
 		outfit.EnableHideInFirstPerson = true;
 
-		Controller = new WalkController();
+		Controller = new GGController();
 		Animator = new PlayerAnimator();
 		Camera = new FirstPersonCamera();
 
