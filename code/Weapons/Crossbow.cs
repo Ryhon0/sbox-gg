@@ -14,4 +14,11 @@ public class Crossbow : Weapon
 	public override string Projectile => "xbow_bolt";
 	public override float ProjectileSpeed => 5000;
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
+
+	[Event.Tick]
+	void OnTick()
+	{
+		ViewModelEntity?.SetAnimBool( "loaded", AmmoClip != 0 );
+	}
+}
 }
