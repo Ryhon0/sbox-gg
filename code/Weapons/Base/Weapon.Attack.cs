@@ -3,6 +3,7 @@ using System;
 
 partial class Weapon
 {
+	public static SoundEvent Dryfire = new SoundEvent( "weapons/rust_shotgun/sounds/rust-shotgun-dryfire.vsnd" );
 	public override bool CanPrimaryAttack()
 	{
 		if ( Owner == null || Owner.Health <= 0 ) return false;
@@ -177,7 +178,8 @@ partial class Weapon
 	}
 	public virtual void DryFire()
 	{
-		PlaySound( "pistol.dryfire" );
+		PlaySound( "Weapon.Dryfire" );
+
 		if ( !IsReloading ) Reload();
 	}
 }
