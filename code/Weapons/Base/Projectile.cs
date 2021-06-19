@@ -22,6 +22,7 @@ public class Projectile : BasePhysics
 		SetModel( ModelPath );
 
 		CollisionGroup = CollisionGroup.Weapon;
+		SetInteractsAs( CollisionLayer.Debris );
 	}
 
 	protected override ModelPropData GetModelPropData()
