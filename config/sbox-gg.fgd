@@ -23,6 +23,14 @@
 ]
 
 // 
+// CrossbowBolt : Projectile 
+// 
+@PointClass = xbow_bolt : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
 // DoubleBarrelShotgun : Weapon 
 // 
 @PointClass = db : ""
@@ -39,9 +47,33 @@
 ]
 
 // 
+// PipeGrenade : Projectile 
+// 
+@PointClass = pipe_grenade : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
 // Knife : Weapon 
 // 
 @PointClass = knife : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// M16 : Weapon 
+// 
+@PointClass = m16 : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// M16Grenade : Projectile 
+// 
+@PointClass = m16grenade : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
@@ -82,30 +114,6 @@
 // Vector45 : Weapon 
 // 
 @PointClass = vec45 : ""
-[
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-]
-
-// 
-// ExplosiveBarrelProjectile : Projectile 
-// 
-@PointClass = explosive_barrel_projectile : ""
-[
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-]
-
-// 
-// CrossbowBolt : Projectile 
-// 
-@PointClass = xbow_bolt : ""
-[
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-]
-
-// 
-// PipeGrenadeProjectile : Projectile 
-// 
-@PointClass = pipe_grenade_projectile : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]

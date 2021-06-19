@@ -4,10 +4,9 @@
 public class Crossbow : Weapon
 {
 	static SoundEvent Attack = new SoundEvent( "weapons/rust_crossbow/sounds/crossbow-attack-1.vsnd" );
-	public override float Damage => 65;
+	public override float Damage => 100;
 	public override int RPM => 250;
 	public override float ReloadTime => 3;
-	public override float Spread => .1f;
 	public override float Spread => 0f;
 	public override string ShootShound => "Crossbow.Attack";
 	public override string WorldModelPath => "weapons/rust_crossbow/rust_crossbow.vmdl";
