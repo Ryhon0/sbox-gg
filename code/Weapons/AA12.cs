@@ -14,5 +14,5 @@ public class AA12 : Weapon
 	public override string WorldModelPath => "weapons/rust_smg/rust_smg.vmdl";
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 	public override CrosshairType CrosshairType => CrosshairType.Sides;
-	public override int HoldType => 2;
+	public override HoldType HoldType => HoldType.SMG;
 }

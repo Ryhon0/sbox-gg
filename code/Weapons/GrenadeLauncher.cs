@@ -18,7 +18,7 @@ class GrenadeLauncher : Weapon
 	public override string Brass => null;
 	public override bool ReloadMagazine => false;
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
-	public override int HoldType => 3;
+	public override HoldType HoldType => HoldType.Shotgun;
 
 	protected override void ShootEffects()
 	{

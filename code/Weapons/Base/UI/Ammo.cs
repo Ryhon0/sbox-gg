@@ -9,6 +9,8 @@ public class Ammo : Panel
 
 	public Ammo()
 	{
+		StyleSheet.Load( "/Weapons/Base/UI/Ammo.scss" );
+
 		Weapon = Add.Label( "100", "weapon" );
 	}
 

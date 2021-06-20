@@ -15,5 +15,5 @@ public class PipeShotgun : Weapon
 	public override string ViewModelPath => "weapons/rust_shotgun/v_rust_shotgun.vmdl";
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
 	public override string Brass => null;
-	public override int HoldType => 4;
+	public override HoldType HoldType => HoldType.Shotgun;
 }

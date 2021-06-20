@@ -4,11 +4,13 @@ using Sandbox.UI.Construct;
 
 public class Crosshair : Panel
 {
+	public static bool UseReloadTimer = false;
+
 	int fireCounter;
 	Label ReloadTimer;
 	public Crosshair()
 	{
-		StyleSheet.Load( "/ui/Crosshair.scss" );
+		StyleSheet.Load( "/Weapons/Base/UI/Crosshair.scss" );
 
 		for ( int i = 0; i < 5; i++ )
 		{
@@ -24,7 +26,7 @@ public class Crosshair : Panel
 		base.Tick();
 		this.PositionAtCrosshair();
 
-		if ( Local.Pawn != null && Local.Pawn.ActiveChild is Weapon w
+		if ( UseReloadTimer && Local.Pawn != null && Local.Pawn.ActiveChild is Weapon w
 			&& w.IsReloading && (w.ReloadTime - w.TimeSinceReload) > 0 )
 			ReloadTimer.Text = (w.ReloadTime - w.TimeSinceReload).ToString( "0.0s" );
 		else ReloadTimer.Text = "";

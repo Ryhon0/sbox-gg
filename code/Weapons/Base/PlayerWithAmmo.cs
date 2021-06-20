@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 public partial class PlayerWithAmmo : Sandbox.Player
 {
-	[Net]
+	[Net, Predicted]
 	public List<int> Ammo { get; set; } = new(); // todo - networkable dictionaries
 
-	public void ClearAmmo()
+	public virtual void ClearAmmo()
 	{
 		Ammo.Clear();
 	}
 
-	public int AmmoCount( int type )
+	public virtual int AmmoCount( int type )
 	{
 		var iType = (int)type;
 		if ( Ammo == null ) return 0;
@@ -20,7 +20,7 @@ public partial class PlayerWithAmmo : Sandbox.Player
 		return Ammo[(int)type];
 	}
 
-	public bool SetAmmo( int type, int amount )
+	public virtual bool SetAmmo( int type, int amount )
 	{
 		var iType = (int)type;
 		if ( !Host.IsServer ) return false;
@@ -35,7 +35,7 @@ public partial class PlayerWithAmmo : Sandbox.Player
 		return true;
 	}
 
-	public bool GiveAmmo( int type, int amount )
+	public virtual bool GiveAmmo( int type, int amount )
 	{
 		if ( !Host.IsServer ) return false;
 		if ( Ammo == null ) return false;
@@ -44,7 +44,7 @@ public partial class PlayerWithAmmo : Sandbox.Player
 		return true;
 	}
 
-	public int TakeAmmo( int type, int amount )
+	public virtual int TakeAmmo( int type, int amount )
 	{
 		if ( Ammo == null ) return 0;
 

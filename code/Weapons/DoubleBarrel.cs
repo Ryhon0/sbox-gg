@@ -15,7 +15,7 @@ public class DoubleBarrelShotgun : Weapon
 	public override string WorldModelPath => "weapons/rust_shotgun/rust_shotgun.vmdl";
 	public override string ViewModelPath => "weapons/rust_shotgun/v_rust_shotgun.vmdl";
 	public override CrosshairType CrosshairType => CrosshairType.Sides;
-	public override int HoldType => 4;
+	public override HoldType HoldType => HoldType.Shotgun;
 
 	public override void AttackSecondary()
 	{

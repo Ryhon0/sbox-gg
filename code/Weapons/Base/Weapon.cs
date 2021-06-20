@@ -8,6 +8,13 @@ public enum CrosshairType
 	None,
 	Cross
 }
+public enum HoldType
+{
+	Unarmed = 0,
+	Pistol = 1,
+	SMG = 2,
+	Shotgun = 3
+}
 public partial class Weapon : BaseWeapon
 {
 	// Networked variables
@@ -51,7 +58,7 @@ public partial class Weapon : BaseWeapon
 	public virtual float BurstInterval => 60f / BurstRPM;
 
 	// Audio/Visual
-	public virtual int HoldType => 1;
+	public virtual HoldType HoldType => HoldType.Pistol;
 	public virtual CrosshairType CrosshairType => CrosshairType.Dot;
 	public virtual string ShootShound => "rust_pistol.shoot";
 	public virtual string WorldModelPath => "weapons/rust_pistol/rust_pistol.vmdl";
@@ -167,7 +174,7 @@ public partial class Weapon : BaseWeapon
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{
-		anim.SetParam( "holdtype", HoldType ); // TODO this is shit
+		anim.SetParam( "holdtype", (int)HoldType ); // TODO this is shit
 		anim.SetParam( "aimat_weight", 1.0f );
 	}
 }

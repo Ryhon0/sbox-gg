@@ -2,6 +2,8 @@
 
 public class Projectile : BasePhysics
 {
+	public static bool DebugDrawRadius = false;
+
 	public virtual float Damage { get; set; } = 100;
 	public virtual float Force { get; set; } = 100;
 	public virtual string ModelPath => "models/light_arrow.vmdl";
@@ -108,8 +110,11 @@ public class Projectile : BasePhysics
 	{
 		if ( !this.IsValid() ) return;
 
-		//DebugOverlay.Sphere( Position, ExplosionRadius, Color.Yellow, true, 1 );
-		//DebugOverlay.Sphere( Position, MinimumDamageRadius, Color.Red, true, 1 );
+		if ( DebugDrawRadius )
+		{
+			DebugOverlay.Sphere( Position, ExplosionRadius, Color.Yellow, true, 1 );
+			DebugOverlay.Sphere( Position, MinimumDamageRadius, Color.Red, true, 1 );
+		}
 
 		PlaySound( "rust_pumpshotgun.shootdouble" );
 		Particles explosion = Particles.Create( "particles/explosion.vpcf", Position );

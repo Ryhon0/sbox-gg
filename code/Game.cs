@@ -9,6 +9,8 @@ public partial class Game : Sandbox.Game
 
 	public Game()
 	{
+		Crosshair.UseReloadTimer = true;
+		Projectile.DebugDrawRadius = true;
 		if ( IsServer )
 		{
 			new MinimalHudEntity();

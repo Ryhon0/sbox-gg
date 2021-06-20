@@ -16,5 +16,5 @@ public class PumpShotgun : Weapon
 	public override string Brass => null;
 	public override bool ReloadMagazine => false;
 	public override CrosshairType CrosshairType => CrosshairType.Sides;
-	public override int HoldType => 3;
+	public override HoldType HoldType => HoldType.Shotgun;
 }

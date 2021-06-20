@@ -15,7 +15,7 @@ public partial class M16 : Weapon
 	public override string WorldModelPath => "weapons/rust_smg/rust_smg.vmdl";
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
-	public override int HoldType => 2;
+	public override HoldType HoldType => HoldType.SMG;
 
 	[Net, Predicted]
 	bool HasGrenade { get; set; } = true;
@@ -28,7 +28,7 @@ public partial class M16 : Weapon
 	public override void AttackSecondary()
 	{
 		if ( IsServer )
-			ShootProjectile( "m16grenade", Spread, 750 , 200, 120 );
+			ShootProjectile( "m16grenade", Spread, 750, 200, 120 );
 		PlaySound( "M16.GrenadeThonk" );
 		ViewModelEntity?.SetAnimBool( "fire", true );
 		HasGrenade = false;
@@ -59,7 +59,7 @@ public partial class M16Grenade : Projectile
 	{
 		base.StartTouch( e );
 		HitSurface = true;
-		if(IsServer) DeleteAsync( 10f );
+		if ( IsServer ) DeleteAsync( 10f );
 	}
 
 	public override void Explode()
