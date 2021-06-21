@@ -1,18 +1,17 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-using System.Linq;
 
 public partial class ClassicChatBox : Panel
 {
 	public static ClassicChatBox Current;
 
-	public Panel Canvas { get; protected set; }
-	public Button EmojiButton { get; set; }
-	public Button SendButton { get; set; }
-	public Panel EmojiCanvas { get; protected set; }
+	public Panel Canvas;
+	public Button EmojiButton;
+	public Button SendButton;
+	public EmojiPicker EmojiPicker;
 	public Panel ChatBoxPanel;
-	public TextEntry Input { get; protected set; }
+	public TextEntry Input;
 
 	//public List<object> ChatMessages { get; private set; }
 
@@ -28,42 +27,39 @@ public partial class ClassicChatBox : Panel
 
 		Input = ChatBoxPanel.Add.TextEntry( "" );
 		Input.AddEvent( "onsubmit", () => Submit() );
-		Input.AddEvent( "onblur", () => Close() );
 		Input.AcceptsFocus = true;
 		Input.AllowEmojiReplace = true;
 
-		EmojiButton = ChatBoxPanel.Add.Button( "😀", "emoji" );
+		EmojiButton = ChatBoxPanel.Add.Button( "😀", "emojibutton" );
 		EmojiButton.AddEvent( "onclick", () => ToggleEmojis() );
-		EmojiCanvas = EmojiButton.Add.Panel( "emoji-canvas" );
+		EmojiPicker = ChatBoxPanel.AddChild<EmojiPicker>();
+		EmojiPicker.Chat = this;
+		EmojiPicker.Search.AddEvent( "onblur", () => Input.Focus() );
+		EmojiPicker.Search.AcceptsFocus = true;
 
 		SendButton = ChatBoxPanel.Add.Button( "➤", "send" );
 		SendButton.AddEvent( "onclick", () => Submit() );
-
-		// Only 100 emojis for now, showing all of them lags the game
-		foreach ( var e in EmojiList.Entries.Values.Take( 100 ) )
-		{
-			var eb = EmojiCanvas.Add.Button( e, "emoji" );
-			eb.AddEvent( "onclick", () => InsertEmoji( e ) );
-		}
 
 		Sandbox.Hooks.Chat.OnOpenChat += Open;
 	}
 
 
-	void ToggleEmojis()
+	public void ToggleEmojis()
 	{
-		EmojiCanvas.SetClass( "open", !EmojiCanvas.HasClass( "open" ) );
+		EmojiPicker.SetClass( "open", !EmojiPicker.HasClass( "open" ) );
 	}
-	void ShowEmojis()
+	public void ShowEmojis()
 	{
-		EmojiCanvas.AddClass( "open" );
+		EmojiPicker.AddClass( "open" );
+		EmojiPicker.Search.Focus();
 	}
-	void HideEmojis()
+	public void HideEmojis()
 	{
-		EmojiCanvas.RemoveClass( "open" );
+		Input.Focus();
+		EmojiPicker.RemoveClass( "open" );
 	}
 
-	void InsertEmoji( string e )
+	public void InsertEmoji( string e )
 	{
 		var shift = Sandbox.Input.Down( InputButton.Run );
 		if ( shift ) ShowEmojis();
@@ -77,11 +73,14 @@ public partial class ClassicChatBox : Panel
 		AddClass( "open" );
 		Input.Focus();
 
-		foreach ( ClassicChatEntry message in Canvas.Children )
+		foreach ( Panel message in Canvas.Children )
 		{
-			if ( message.HasClass( "hide" ) )
+			if ( message is ClassicChatEntry c )
 			{
-				message.AddClass( "show" );
+				if ( c.HasClass( "hide" ) )
+				{
+					c.AddClass( "show" );
+				}
 			}
 		}
 	}
@@ -91,13 +90,14 @@ public partial class ClassicChatBox : Panel
 		RemoveClass( "open" );
 		Input.Blur();
 
-		foreach ( ClassicChatEntry message in Canvas.Children )
+		foreach ( Panel message in Canvas.Children )
 		{
-			if ( message.HasClass( "show" ) )
-			{
-				message.RemoveClass( "show" );
-				message.AddClass( "expired" );
-			}
+			if ( message is ClassicChatEntry c )
+				if ( c.HasClass( "show" ) )
+				{
+					c.RemoveClass( "show" );
+					c.AddClass( "expired" );
+				}
 		}
 	}
 

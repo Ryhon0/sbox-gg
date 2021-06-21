@@ -5,7 +5,6 @@
     z-index: 100;
     flex-direction: column;
     width: 500px;
-    font-family: Poppins;
     font-size: 13px;
 
     .chatbox-panel {
@@ -21,6 +20,16 @@
             flex-shrink: 0;
             flex-grow: 0;
             width: 80%;
+
+            .autocomplete {
+                flex-direction: column;
+
+                button {
+                    &.active {
+                        background-color: blue;
+                    }
+                }
+            }
         }
 
         button {
@@ -28,8 +37,8 @@
             justify-content: center;
             width: 64px;
 
-            &.emoji {
-                background-color: #00ff21;
+            &.emojibutton {
+                background-color: greenyellow;
             }
 
             &.send {
@@ -38,48 +47,12 @@
             }
         }
 
-        .emoji-canvas {
-            opacity: 0;
+        EmojiPicker {
             position: absolute;
-            background-color: black;
             bottom: 49px;
             left: 0px;
-            width: 512px;
-            height: 256px;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-content: start;
-            transition: all 0.1s ease-out;
-            transform: scale(2);
-            overflow: scroll;
-            scroll-behavior: smooth;
-
-            &.open {
-                opacity: 1;
-                transition: all 0.2s ease-out;
-                transform: scale(1);
-            }
-
-            .emoji {
-                background-color: white;
-                color: black;
-                margin: 5px;
-                height: 48px;
-                width: 48px;
-                transition: all 0.2s ease-out;
-                color: white;
-                font-size: 24px;
-
-                &:active {
-                    transition: all 0.2s ease-out;
-                    font-size: 24px;
-                }
-
-                &:hover {
-                    transition: all 0.2s ease-out;
-                    font-size: 32px;
-                }
-            }
+            width: 468px;
+            height: 300px;
         }
     }
 

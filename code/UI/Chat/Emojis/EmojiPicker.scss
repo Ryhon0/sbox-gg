@@ -1,0 +1,85 @@
+﻿EmojiPicker {
+    background-color: #111;
+    color: white;
+    flex-direction: column-reverse;
+    opacity: 0;
+
+    &.open {
+        opacity: 1;
+    }
+
+    ButtonGroup {
+        flex-direction: row;
+        align-content: start;
+        background-color: #222;
+        font-size: 16px;
+
+        button {
+            width: 32px;
+            height: 32px;
+
+            &.active {
+                background-color: greenyellow;
+            }
+
+            &.active, &:hover {
+                font-size: 24px;
+            }
+        }
+    }
+
+    .emojisearch {
+        border-bottom: 2px solid gray;
+    }
+
+    .emojipanel {
+        flex-direction: column;
+        height: 75%;
+    }
+
+    .emojilist {
+        position: relative;
+        display: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: start;
+        overflow: scroll;
+        scroll-behavior: smooth;
+        transition: all .2s ease;
+        opacity: 0;
+        padding: 5px 0px;
+
+        &.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .emoji {
+            background-color: lightblue;
+            border-radius: 8px;
+            font-size: 32px;
+            margin: 2px;
+            height: 48px;
+            width: 48px;
+            transition: all .5s ease;
+            align-items: center;
+            justify-content: center;
+
+            &.hidden {
+                display: none;
+            }
+
+            &:hover {
+                transition: all .1s ease;
+                background-color: lightcyan;
+                transform: scale(1.5);
+                z-index: 5;
+            }
+
+            &:active {
+                transform: scale(1.15);
+                transition: all .07s ease;
+            }
+        }
+    }
+}
