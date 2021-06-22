@@ -29,6 +29,8 @@ public class EmojiPicker : Panel
 		var tabs = Add.ButtonGroup();
 		EmojiPanel = Add.Panel( "emojipanel" );
 		Search = Add.TextEntry( "" );
+		Search.Placeholder = "Click to search";
+		Search.AllowEmojiReplace = false;
 		Search.AddClass( "emojisearch" );
 		Search.AddEvent( "onchange", () => UpdateSearch() );
 
@@ -63,7 +65,8 @@ public class EmojiPicker : Panel
 			{
 				if ( e is EmojiButton b )
 				{
-					var found = !b.Names.Any( n => n.ToLower().Contains( query.ToLower() ) );
+					var found = !b.Names.Any( n => n.ToLower().Replace( "_", "" ).Replace( " ", "" ).
+						Contains( query.ToLower().Replace( "_", "" ).Replace( " ", "" ) ) );
 					b.SetClass( "hidden", found );
 				}
 			}

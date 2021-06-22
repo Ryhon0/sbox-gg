@@ -30,7 +30,16 @@
     }
 
     .emojisearch {
+        font-family: Poppins;
         border-bottom: 2px solid gray;
+
+        .placeholder {
+            opacity: 0.2;
+
+            &.hidden {
+                display: none;
+            }
+        }
     }
 
     .emojipanel {
