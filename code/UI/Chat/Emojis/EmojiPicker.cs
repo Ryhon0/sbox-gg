@@ -20,6 +20,7 @@ public class EmojiPicker : Panel
 		{ "Activities", "⚽" },
 		{ "Symbols", "➡" },
 		{ "Food & Drink", "🍔" },
+		{ "Extra", "⭐" },
 	};
 
 	public EmojiPicker()
