@@ -15885,6 +15885,33 @@
                     "ryhon"
                 ],
                 "Unicode": "\uDB80\uDC00"
+            },{
+                "Names": [
+                    "super straight flag"
+                ],
+                "Unicode": "🏳️\uFE0F⬛🟧"
+            },{
+                "Names": [
+                    "super gay flag"
+                ],
+                "Unicode": "🏳️\uFE0F⬛🟦"
+            },{
+                "Names": [
+                    "super lesbian flag"
+                ],
+                "Unicode": "🏳️\uFE0F⬛🟥"
+            },{
+                "Names": [
+                    "super bi flag"
+                ],
+                "Unicode": "🏳️\uFE0F⬛🟩"
+            },{
+                "Names": [
+                    "speculation",
+                    "tyler",
+                    "vnn"
+                ],
+                "Unicode": "\uDB80\uDC02"
             }
         ]
     }
