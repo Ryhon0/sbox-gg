@@ -16,6 +16,8 @@ partial class GunGameHUD
 	public Panel HeroPortrait { get; set; }
 	private void LoadWorld()
 	{
+		if ( heroScene != null ) return;
+
 		using ( SceneWorld.SetCurrent( new SceneWorld() ) )
 		{
 			playerPreview = new AnimSceneObject( Model.Load( "models/citizen/citizen.vmdl" ), Transform.Zero );
