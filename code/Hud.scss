@@ -1,4 +1,6 @@
-﻿rootpanel {
+﻿$background-color: #0006;
+
+rootpanel {
     font-family: Poppins;
     background-color: rgba( #333, 0 );
     transition: background-color 0.2s ease-in;
@@ -14,21 +16,35 @@
     }
 }
 
+ammo {
+    mix-blend-mode: color;
+    background-color: #0006;
+    padding: 10px 30px;
+    border-radius: 10px;
+}
+
 vitals {
     position: absolute;
     bottom: 64px;
     left: 100px;
     font-size: 64px;
     color: #ff0;
-    mix-blend-mode: lighten;
     font-family: Roboto;
+    background-color: #0006;
+    padding: 10px 30px;
+    border-radius: 10px;
 
     label {
+        mix-blend-mode: lighten;
         text-shadow: 0px 0px 20px #f70a;
 
         &.danger {
             color: #f00;
-            text-shadow: 0px 0px 10px #f005;
+            text-shadow: 0px 0px 10px #f70a;
         }
     }
+}
+
+.hidden {
+    display: none;
 }

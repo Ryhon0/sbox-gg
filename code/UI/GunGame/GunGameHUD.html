@@ -1,13 +1,19 @@
 ﻿<div>
-    <div class="weapon current">
-        <text>Current</text>
-        <div class="weapon-icon" @ref="CurrentWeapon" style="background-image: url(/ui/weapons/pistol.png);">
-        </div>
-    </div>
+    <div @ref="WeaponsPanel" class="weapons">
+        <label @ref="RotationName">Gun Game</label>
 
-    <div class="weapon next">
-        <text>Next</text>
-        <div class="weapon-icon" @ref="NextWeapon" style="background-image: url(/ui/weapons/smg.png);">
+        <div class="weapon-icons">
+            <div>
+                <text>Current</text>
+                <div class="weapon-icon" @ref="CurrentWeapon" style="background-image: url(/ui/weapons/smg.png);">
+                </div>
+            </div>
+
+            <div>
+                <text>Next</text>
+                <div class="weapon-icon" @ref="NextWeapon" style="background-image: url(/ui/weapons/smg.png);">
+                </div>
+            </div>
         </div>
     </div>
 
