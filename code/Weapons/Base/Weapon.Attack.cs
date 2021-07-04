@@ -132,7 +132,7 @@ partial class Weapon
 				if ( tr.Hit ) tr.Surface.DoBulletImpact( tr );
 
 				if ( !tr.Entity.IsValid() ) continue;
-				if (IsServer) continue;
+				if (!IsServer) continue;
 
 				//
 				// We turn predictiuon off for this, so any exploding effects don't get culled etc
