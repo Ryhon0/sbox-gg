@@ -17,4 +17,11 @@ public class Knife : Weapon
 	public override string Brass => null;
 	public override string MuzzleFlash => null;
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
+	public override HoldType HoldType => HoldType.Universal;
+
+	public override void SimulateAnimator(PawnAnimator anim)
+	{
+		base.SimulateAnimator(anim);
+		anim.SetParam("holdtype_attack", 2f);
+	}
 }
