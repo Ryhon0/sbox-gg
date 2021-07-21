@@ -33,7 +33,7 @@ public class EmojiPicker : Panel
 		Search.Placeholder = "Click to search";
 		Search.AllowEmojiReplace = false;
 		Search.AddClass( "emojisearch" );
-		Search.AddEvent( "onchange", () => UpdateSearch() );
+		Search.AddEventListener( "onchange", () => UpdateSearch() );
 
 		foreach ( var cat in Emojis.Categories )
 		{
@@ -50,7 +50,7 @@ public class EmojiPicker : Panel
 				eb.Text = e.Unicode;
 				eb.Names = e.Names;
 				eb.AddClass( "emoji" );
-				eb.AddEvent( "onclick", () => Chat.InsertEmoji( e.Unicode ) );
+				eb.AddEventListener( "onclick", () => Chat.InsertEmoji( e.Unicode ) );
 			}
 
 			tabs.SelectedButton = tabs.GetChild( 0 );

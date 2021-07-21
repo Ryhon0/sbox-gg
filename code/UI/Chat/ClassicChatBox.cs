@@ -26,19 +26,19 @@ public partial class ClassicChatBox : Panel
 		ChatBoxPanel = Add.Panel( "chatbox-panel" );
 
 		Input = ChatBoxPanel.Add.TextEntry( "" );
-		Input.AddEvent( "onsubmit", () => Submit() );
+		Input.AddEventListener( "onsubmit", () => Submit() );
 		Input.AcceptsFocus = true;
 		Input.AllowEmojiReplace = true;
 
 		EmojiButton = ChatBoxPanel.Add.Button( "😀", "emojibutton" );
-		EmojiButton.AddEvent( "onclick", () => ToggleEmojis() );
+		EmojiButton.AddEventListener( "onclick", () => ToggleEmojis() );
 		EmojiPicker = ChatBoxPanel.AddChild<EmojiPicker>();
 		EmojiPicker.Chat = this;
-		EmojiPicker.Search.AddEvent( "onblur", () => Input.Focus() );
+		EmojiPicker.Search.AddEventListener( "onblur", () => Input.Focus() );
 		EmojiPicker.Search.AcceptsFocus = true;
 
 		SendButton = ChatBoxPanel.Add.Button( "➤", "send" );
-		SendButton.AddEvent( "onclick", () => Submit() );
+		SendButton.AddEventListener( "onclick", () => Submit() );
 
 		Sandbox.Hooks.Chat.OnOpenChat += Open;
 	}

@@ -34,7 +34,7 @@ class GrenadeLauncher : Weapon
 		}
 
 		ViewModelEntity?.SetAnimBool( "fire_double", true );
-		CrosshairPanel?.OnEvent( "fire" );
+		CrosshairPanel?.CreateEvent( "fire" );
 	}
 }
 
