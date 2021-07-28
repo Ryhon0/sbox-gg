@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Linq;
 
 partial class Weapon
 {
@@ -35,7 +36,7 @@ partial class Weapon
 	public int BurstShotsRemaining = 0;
 	public int ShotsThisBurst => Math.Min( AmmoClip, ShotsPerTriggerPull );
 
-	public override async void AttackPrimary()
+	public override void AttackPrimary()
 	{
 		if ( AmmoClip <= 0 )
 		{
@@ -66,16 +67,17 @@ partial class Weapon
 				PlaySound( ShootShound );
 
 				if ( Projectile != null ) ShootProjectile( Projectile, Spread, ProjectileSpeed, Force, Damage, BulletsPerShot );
-				else ShootBullet( Spread, Force, Damage, BulletSize, BulletsPerShot );
+				else ShootBullet( Spread, Force, Damage, BulletSize, BulletsPerShot, DamageFlags );
 
-				(Owner as AnimEntity).SetAnimBool("b_attack", true);
+				(Owner as AnimEntity).SetAnimBool( "b_attack", true );
 			}
 		}
 	}
 
-	public void ShootProjectile( string projectile, float spread, float projectilespeed, float force, float damage, int count = 1 )
+	public void ShootProjectile( string projectile, float spread, float projectilespeed, float force, float damage, int count = 1, DamageFlags flags = DamageFlags.Bullet )
 	{
 		if ( !IsServer ) return;
+
 		for ( int i = 0; i < BulletsPerShot; i++ )
 		{
 			if ( Owner == null ) continue;
@@ -98,6 +100,7 @@ partial class Weapon
 				pp.Damage = damage;
 				pp.Force = force;
 				pp.Weapon = this;
+				pp.DamageFlags = flags;
 			}
 		}
 	}
