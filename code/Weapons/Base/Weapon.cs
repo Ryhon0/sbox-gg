@@ -46,6 +46,7 @@ public partial class Weapon : BaseWeapon
 	public virtual bool IsMelee => false;
 	public virtual float Force => 0.5f;
 	public virtual float Damage => 10f;
+	public virtual DamageFlags DamageFlags => DamageFlags.Bullet;
 	public virtual bool IsAutomatic => true;
 	public virtual int BulletsPerShot => 1;
 	public virtual float Spread => 0.1f;

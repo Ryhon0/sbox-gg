@@ -13,6 +13,7 @@ public class Projectile : BasePhysics
 	public virtual bool Explosive => false;
 	public virtual float ExplosionRadius => 100;
 	public virtual float MinimumDamageRadius => ExplosionRadius / 2;
+	public virtual DamageFlags DamageFlags { get; set; }
 
 	public Weapon Weapon;
 
@@ -60,7 +61,8 @@ public class Projectile : BasePhysics
 
 			var damageInfo = DamageInfo.FromBullet( Position, (pos - Position).Normal * Force, Damage )
 					.WithAttacker( Owner )
-					.WithWeapon( Weapon );
+					.WithWeapon( Weapon )
+					.WithFlag( DamageFlags );
 			e.TakeDamage( damageInfo );
 		}
 
