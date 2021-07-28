@@ -172,7 +172,9 @@
     }
 
     &.none {
-        opacity: 0;
+        .el0 {
+            opacity: 0;
+        }
     }
 }
 
