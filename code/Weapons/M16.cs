@@ -12,10 +12,10 @@ public partial class M16 : Weapon
 	public override float Spread => 0.05f;
 	public override int ClipSize => 30;
 	public override string ShootShound => "rust_smg.shoot";
-	public override string WorldModelPath => "weapons/rust_smg/rust_smg.vmdl";
-	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
+	public override string WorldModelPath => "weapons/m16/m16.vmdl";
+	public override string ViewModelPath => "weapons/m16/v_m16.vmdl";
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
-	public override HoldType HoldType => HoldType.SMG;
+	public override HoldType HoldType => HoldType.Shotgun;
 
 	[Net, Predicted]
 	bool HasGrenade { get; set; } = true;
