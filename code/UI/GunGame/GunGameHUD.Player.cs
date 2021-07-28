@@ -8,6 +8,7 @@ partial class GunGameHUD
 	private Angles CamAngles;
 	private AnimSceneObject playerPreview;
 	private AnimSceneObject playerCostumePreview;
+	private AnimSceneObject crownPreview;
 	private float startTime;
 
 	public Scene heroScene { get; set; }
@@ -28,6 +29,9 @@ partial class GunGameHUD
 			// Clothes
 			playerCostumePreview = new AnimSceneObject( Model.Load( "models/clothes/hotdog/hotdog.vmdl" ), Transform.Zero );
 			playerPreview.AddChild( "outfit", playerCostumePreview );
+
+			crownPreview = new AnimSceneObject( Model.Load( "models/clothes/crown/crown.vmdl" ), Transform.Zero );
+			playerPreview.AddChild( "crown", crownPreview );
 
 			startTime = Time.Now;
 
