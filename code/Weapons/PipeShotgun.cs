@@ -4,7 +4,7 @@
 public class PipeShotgun : Weapon
 {
 	static SoundEvent Attack = new SoundEvent( "weapons/rust_shotgun/sounds/rust-shotgun-attack.vsnd" );
-	public override float Damage => 99;
+	public override float Damage => 100;
 	public override bool IsAutomatic => false;
 	public override int ClipSize => 1;
 	public override int RPM => 40;

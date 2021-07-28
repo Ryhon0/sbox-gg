@@ -7,7 +7,7 @@ public class SMG : Weapon
 	public override bool IsAutomatic => true;
 	public override int RPM => 600;
 	public override float ReloadTime => 3f;
-	public override float Spread => 0.075f;
+	public override float Spread => 0.15f;
 	public override int ClipSize => 25;
 	public override string ShootShound => "rust_smg.shoot";
 	public override string WorldModelPath => "weapons/rust_smg/rust_smg.vmdl";
