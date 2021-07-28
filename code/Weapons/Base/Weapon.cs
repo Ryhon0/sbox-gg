@@ -117,6 +117,8 @@ public partial class Weapon : BaseWeapon
 	}
 	public override void Simulate( Client owner )
 	{
+		ViewModelEntity?.SetAnimBool( "empty", AmmoClip <= 0 );
+
 		if ( TimeSinceDeployed < DeployTime )
 			return;
 
