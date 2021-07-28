@@ -12,7 +12,7 @@ public partial class Player : Sandbox.Player
 
 		Controller = new GGController();
 		Animator = new PlayerAnimator();
-		Camera = new FirstPersonCamera();
+		Camera = new GGCamera();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
