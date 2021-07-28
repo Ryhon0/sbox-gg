@@ -599,7 +599,7 @@
 						{
 							m_id = 1830143744
 						}
-						m_position = [ -729.0, -183.0 ]
+						m_position = [ -734.0, -166.0 ]
 						m_bIsStartState = false
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
@@ -612,7 +612,15 @@
 						[
 							{
 								_class = "CAnimStateTransition"
-								m_conditions = [  ]
+								m_conditions = 
+								[
+									{
+										_class = "CFinishedCondition"
+										m_comparisonOp = 0
+										m_option = "FinishedConditionOption_OnFinished"
+										m_bIsFinished = true
+									},
+								]
 								m_blendDuration = 0.2
 								m_destState = 
 								{

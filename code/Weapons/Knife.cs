@@ -19,9 +19,9 @@ public class Knife : Weapon
 	public override CrosshairType CrosshairType => CrosshairType.Dot;
 	public override HoldType HoldType => HoldType.Universal;
 
-	public override void SimulateAnimator(PawnAnimator anim)
+	public override void SimulateAnimator( PawnAnimator anim )
 	{
-		base.SimulateAnimator(anim);
-		anim.SetParam("holdtype_attack", 2f);
+		base.SimulateAnimator( anim );
+		anim.SetParam( "holdtype_attack", 2f );
 	}
 }

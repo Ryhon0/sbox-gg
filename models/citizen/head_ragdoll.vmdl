@@ -1,0 +1,88 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "citizen_skin.vmat"
+								to = "models/citizen/skin/citizen_skin.vmat"
+							},
+							{
+								from = "citizen_eyes.vmat"
+								to = "models/citizen/skin/citizen_eyes.vmat"
+							},
+							{
+								from = "citizen_eyeao.vmat"
+								to = "models/citizen/skin/citizen_eyes.vmat"
+							},
+							{
+								from = ""
+								to = "materials/dev/red_vr.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeCylinder"
+						parent_bone = "head"
+						surface_prop = "flesh"
+						collision_prop = "default"
+						radius = 6.433606
+						point0 = [ 10.382868, 0.398441, -0.091323 ]
+						point1 = [ 0.282479, 0.849043, 0.036228 ]
+					},
+					{
+						_class = "PhysicsShapeSphere"
+						parent_bone = "head"
+						surface_prop = "flesh"
+						collision_prop = "default"
+						radius = 6.07321
+						center = [ 9.76022, 0.593735, 0.243126 ]
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						filename = "models/citizen/head_ragdoll.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+		]
+		model_archetype = "physics_prop_model"
+		primary_associated_entity = "prop_physics"
+		anim_graph_name = ""
+	}
+}
