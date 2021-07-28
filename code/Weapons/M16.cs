@@ -43,6 +43,11 @@ public partial class M16Grenade : Projectile
 	public override bool DestroyOnWorldImpact => Live;
 	public override bool StickInWalls => false;
 	public override bool Explosive => Live;
+	public override DamageFlags DamageFlags
+	{
+		get => Live ? DamageFlags.AlwaysGib : DamageFlags.Bullet;
+		set => base.DamageFlags = value;
+	}
 
 	bool Live => TimeSinceDeployed > 0.1f;
 
