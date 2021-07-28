@@ -108,6 +108,26 @@ public partial class Game : Sandbox.Game
 
 		GiveWeapon( c.Pawn as Player, GetWeapon( rank ) );
 
+		// Give crown
+		var max = Client.All.Max( a => a.GetScore<int>( "rank", 0 ) );
+		foreach ( var cl in Client.All )
+		{
+			var p = cl.Pawn;
+			if ( p == null || p.Health <= 0 ) continue;
+			if ( p is Player pl )
+			{
+				var crown = p.Children.FirstOrDefault( i => i.Tags.Has( "crown" ) );
+				var score = cl.GetScore<int>( "rank", 0 );
+				var shouldHaveCrown = score != 0 && score == max;
+
+				if ( shouldHaveCrown )
+				{
+					if ( crown == null ) pl.Wear( "models/clothes/crown/crown.vmdl" ).Tags.Add( "crown" );
+				}
+				else crown?.Delete();
+			}
+		}
+
 		return rank;
 	}
 

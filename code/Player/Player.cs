@@ -8,6 +8,7 @@ public partial class Player : Sandbox.Player
 		SetModel( "models/citizen/citizen.vmdl" );
 		this.SetMaterialGroup( Rand.Int( 0, 1 ) == 0 ? 0 : 3 );
 		DressUp();
+		WearCrown();
 
 		Controller = new GGController();
 		Animator = new PlayerAnimator();

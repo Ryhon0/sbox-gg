@@ -8,6 +8,17 @@ partial class Player
 		Wear( "models/clothes/hotdog/hotdog.vmdl" );
 	}
 
+	public void WearCrown()
+	{
+		if ( !IsServer ) return;
+
+		var max = Client.All.Max( a => a.GetScore<int>( "rank", 0 ) );
+		if ( GetClientOwner().GetScore<int>( "rank", 0 ) == max && max != 0 )
+		{
+			Wear( "models/clothes/crown/crown.vmdl" ).Tags.Add( "crown" );
+		}
+	}
+
 	public ModelEntity Wear( string path )
 	{
 		var outfit = new ModelEntity();
