@@ -3,6 +3,7 @@ using System;
 
 partial class Weapon
 {
+	public static bool UseClientSideHitreg = false;
 	public static SoundEvent Dryfire = new SoundEvent( "weapons/rust_shotgun/sounds/rust-shotgun-dryfire.vsnd" );
 	public override bool CanPrimaryAttack()
 	{
@@ -116,8 +117,10 @@ partial class Weapon
 		return tr.Hit ? tr.EndPos : end;
 	}
 
-	public void ShootBullet( float spread, float force, float damage, float bulletSize, int count = 1 )
+	public void ShootBullet( float spread, float force, float damage, float bulletSize, int count = 1, DamageFlags flags = DamageFlags.Bullet )
 	{
+		if ( UseClientSideHitreg && IsServer ) return;
+
 		//
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
@@ -133,7 +136,6 @@ partial class Weapon
 			{
 				if ( tr.Hit ) tr.Surface.DoBulletImpact( tr );
 
-				if ( !IsServer ) continue;
 				if ( !tr.Entity.IsValid() ) continue;
 
 				//
@@ -144,12 +146,38 @@ partial class Weapon
 					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage / count )
 						.UsingTraceResult( tr )
 						.WithAttacker( Owner )
-						.WithWeapon( this );
+						.WithWeapon( this )
+						.WithFlag( flags );
 
-					tr.Entity.TakeDamage( damageInfo );
+					if ( !UseClientSideHitreg )
+					{
+						tr.Entity.TakeDamage( damageInfo );
+					}
+					else
+					{
+						ServerTakeDamage( tr.Entity.NetworkIdent, tr.EndPos,
+							damageInfo.Damage, damageInfo.HitboxIndex, damageInfo.Flags );
+					}
 				}
 			}
 		}
+	}
+
+	[ServerCmd]
+	public static void ServerTakeDamage( int TargetID, Vector3 pos, float damage, int hitbox, DamageFlags flags )
+	{
+		Host.AssertServer();
+
+		var attacker = ConsoleSystem.Caller.Pawn as Player;
+		var attacked = Entity.All.First( e => e.NetworkIdent == TargetID );
+
+		var dmg = DamageInfo.FromBullet( pos, Vector3.Zero, damage )
+			.WithAttacker( attacker )
+			.WithWeapon( attacker.ActiveChild )
+			.WithFlag( flags )
+			.WithHitbox( hitbox );
+
+		attacked.TakeDamage( dmg );
 	}
 
 	[ClientRpc]
