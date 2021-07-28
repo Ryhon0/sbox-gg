@@ -188,7 +188,16 @@ public partial class Game : Sandbox.Game
 			if ( custom.Any() )
 			{
 				var crotf = custom.Where( f => f != PreviousRotation ).GetRandom();
+				if ( crotf == null )
+				{
+					PreviousRotation = null;
+					LoadRandomWeaponRotation();
+					return;
+				}
+				else
+				{
 					Log.Info( "Loading custom rotation: " + crotf );
+					LoadWeaponRotation( FileSystem.Data.ReadAllText( "rotation/" + crotf ) );
 					return;
 				}
 			}
@@ -201,7 +210,18 @@ public partial class Game : Sandbox.Game
 		}
 
 		var rotf = FileSystem.Mounted.FindFile( "config/rotation", "*" ).Where( f => f != PreviousRotation ).GetRandom();
+		if ( rotf == null )
+		{
+			PreviousRotation = null;
+			LoadRandomWeaponRotation();
+			return;
+		}
+		else
+		{
 			Log.Info( "Loading built-in rotation: " + rotf );
+			PreviousRotation = rotf;
+			LoadWeaponRotation( FileSystem.Mounted.ReadAllText( "config/rotation/" + rotf ) );
+		}
 	}
 
 	void LoadWeaponRotation( string text )
