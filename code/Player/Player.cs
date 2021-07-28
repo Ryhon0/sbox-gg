@@ -7,13 +7,7 @@ public partial class Player : Sandbox.Player
 		Inventory.DeleteContents();
 		SetModel( "models/citizen/citizen.vmdl" );
 		this.SetMaterialGroup( Rand.Int( 0, 1 ) == 0 ? 0 : 3 );
-
-		var outfit = new ModelEntity();
-
-		outfit.SetModel( "models/clothes/hotdog/hotdog.vmdl" );
-		outfit.SetParent( this, true );
-		outfit.EnableShadowInFirstPerson = true;
-		outfit.EnableHideInFirstPerson = true;
+		DressUp();
 
 		Controller = new GGController();
 		Animator = new PlayerAnimator();
