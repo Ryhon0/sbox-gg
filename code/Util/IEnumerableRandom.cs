@@ -12,6 +12,7 @@ public static class IEnumerableRandom
 		foreach ( var itm in e )
 			if ( i == rand ) return itm;
 			else i++;
-		throw new Exception( "No items in collection" );
+
+		return default;
 	}
 }
