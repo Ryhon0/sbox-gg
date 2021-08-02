@@ -172,7 +172,8 @@ partial class Weapon
 		Host.AssertServer();
 
 		var attacker = ConsoleSystem.Caller.Pawn as Player;
-		var attacked = Entity.All.First( e => e.NetworkIdent == TargetID );
+		var attacked = Entity.All.FirstOrDefault( e => e.NetworkIdent == TargetID );
+		if ( attacked == null ) return;
 
 		var dmg = DamageInfo.FromBullet( pos, Vector3.Zero, damage )
 			.WithAttacker( attacker )
