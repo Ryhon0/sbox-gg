@@ -18,8 +18,7 @@
             background-color: rgba( black, 0.8 );
             font-size: 14px;
             flex-shrink: 0;
-            flex-grow: 0;
-            width: 80%;
+            flex-grow: 1;
 
             .autocomplete {
                 flex-direction: column;
@@ -35,7 +34,11 @@
         button {
             align-items: center;
             justify-content: center;
-            width: 64px;
+            width: 48px;
+
+            &.ttsbutton {
+                background-color: darkslategray;
+            }
 
             &.emojibutton {
                 background-color: greenyellow;
@@ -47,12 +50,12 @@
             }
         }
 
-        EmojiPicker {
+        EmojiPicker, TTSSettings {
             position: absolute;
             bottom: 49px;
             left: 0px;
-            width: 468px;
-            height: 300px;
+            width: 100%;
+            height: 400px;
         }
     }
 

@@ -1,0 +1,52 @@
+﻿TTSSettings {
+    background-color: #111;
+    color: white;
+    flex-direction: column;
+    opacity: 0;
+    padding: 10px;
+    font-size: 16px;
+
+    &.open {
+        opacity: 1;
+    }
+}
+
+button {
+    padding: 8px;
+    background-color: deepskyblue;
+}
+
+ConvarToggleButton {
+    padding: 8px;
+    background-color: grey;
+
+    &.active {
+        background-color: green;
+    }
+}
+
+ConvarSlider {
+    flex-direction: row;
+    cursor: pointer;
+
+    .bar {
+        flex-grow: 1;
+        background-color: gray;
+
+        .fill {
+            position: absolute;
+            background-color: lightblue;
+            height: 100%;
+        }
+
+        .handle {
+            position: absolute;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: 10px;
+            height: 20px;
+            background-color: white;
+            border: 1px solid black;
+        }
+    }
+}

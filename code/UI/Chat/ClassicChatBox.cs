@@ -11,6 +11,7 @@ public partial class ClassicChatBox : Panel
 	public Button SendButton;
 	public EmojiPicker EmojiPicker;
 	public Panel ChatBoxPanel;
+	public TTSSettings TTSSettings;
 	public TextEntry Input;
 
 	//public List<object> ChatMessages { get; private set; }
@@ -37,12 +38,20 @@ public partial class ClassicChatBox : Panel
 		EmojiPicker.Search.AddEventListener( "onblur", () => Input.Focus() );
 		EmojiPicker.Search.AcceptsFocus = true;
 
+		var TTSSettingsButton = ChatBoxPanel.Add.Button( "🤖", "ttsbutton" );
+		TTSSettingsButton.AddEventListener( "onclick", () => ToggleTTSSettings() );
+		TTSSettings = ChatBoxPanel.AddChild<TTSSettings>();
+
 		SendButton = ChatBoxPanel.Add.Button( "➤", "send" );
 		SendButton.AddEventListener( "onclick", () => Submit() );
 
 		Sandbox.Hooks.Chat.OnOpenChat += Open;
 	}
 
+	public void ToggleTTSSettings()
+	{
+		TTSSettings.SetClass( "open", !TTSSettings.HasClass( "open" ) );
+	}
 
 	public void ToggleEmojis()
 	{
@@ -113,6 +122,7 @@ public partial class ClassicChatBox : Panel
 			return;
 
 		Say( msg );
+		TTSSay( SamSpeed, SamPitch, SamMouth, SamThroat, SamSing, msg );
 	}
 
 
@@ -131,7 +141,6 @@ public partial class ClassicChatBox : Panel
 		//ChatMessages.Add( e );
 	}
 
-	//
 	[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
 	public static void AddChatEntry( string name, string message, string avatar = null )
 	{
@@ -162,21 +171,4 @@ public partial class ClassicChatBox : Panel
 		Log.Info( $"{ConsoleSystem.Caller}: {message}" );
 		AddChatEntry( To.Everyone, ConsoleSystem.Caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}" );
 	}
-
 }
-
-
-/*
-public static partial class ClassicChat
-{
-    public static event Action OnOpenChat;
-
-    [ClientCmd( "openchatt" )]
-    internal static void MessageMode()
-    {
-        OnOpenChat?.Invoke();
-    }
-
-}
-
-*/
