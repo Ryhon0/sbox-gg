@@ -30,7 +30,7 @@ public class TTSSettings : Panel
 		var sing = new ConvarToggleButton( this, "sam_sing", "1", "0" );
 		sing.Text = "Sing Mode";
 
-		var reset = Add.Button( "Reset" );
+		var reset = Add.Label( "Reset", "resetbutton" );
 		reset.AddEventListener( "OnClick", () =>
 		 {
 			 ConsoleSystem.Run( "sam_speed", 72 );
