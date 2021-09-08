@@ -9,9 +9,8 @@ partial class GunGameHUD
 	private AnimSceneObject playerPreview;
 	private AnimSceneObject playerCostumePreview;
 	private AnimSceneObject crownPreview;
-	private float startTime;
 
-	public Scene heroScene { get; set; }
+	public ScenePanel heroScene { get; set; }
 	public int WinnerID;
 
 	public Panel HeroPortrait { get; set; }
@@ -23,8 +22,15 @@ partial class GunGameHUD
 		{
 			playerPreview = new AnimSceneObject( Model.Load( "models/citizen/citizen.vmdl" ), Transform.Zero );
 
-			Light.Point( Vector3.Up * 10.0f + Vector3.Forward * 100.0f + Vector3.Right * 100.0f, 2000, Color.White * 15000.0f );
-			Light.Point( Vector3.Up * 10.0f + Vector3.Forward * 100.0f + Vector3.Right * 100.0f, 2000, Color.White * 15000.0f );
+			var light = new Light( new Vector3( -100, 100, 150 ), 2000, Color.White );
+			light.Falloff = 0;
+			//light.Falloff = 0f;
+			light = new Light( new Vector3( 700, -30, 170 ), 2000, Color.White );
+			light.Falloff = 0;
+
+			//light.Falloff = 0.2f; 
+			light = new Light( new Vector3( 100, 100, 150 ), 2000, Color.White );
+			light.Falloff = 0;
 
 			// Clothes
 			playerCostumePreview = new AnimSceneObject( Model.Load( "models/clothes/hotdog/hotdog.vmdl" ), Transform.Zero );
@@ -33,9 +39,7 @@ partial class GunGameHUD
 			crownPreview = new AnimSceneObject( Model.Load( "models/clothes/crown/crown.vmdl" ), Transform.Zero );
 			playerPreview.AddChild( "crown", crownPreview );
 
-			startTime = Time.Now;
-
-			heroScene = HeroPortrait.Add.Scene( SceneWorld.Current, new Vector3( 175, 0, 30 ), CamAngles, 30 );
+			heroScene = HeroPortrait.Add.ScenePanel( SceneWorld.Current, new Vector3( 175, 0, 30 ), Rotation.From(CamAngles), 30 );
 			heroScene.Style.Width = 720;
 			heroScene.Style.Height = 720;
 
@@ -65,9 +69,9 @@ partial class GunGameHUD
 			CopyParams( animator, playerPreview );
 		}
 
-		playerPreview.Update( Time.Now - startTime );
-		playerCostumePreview.Update( Time.Now - startTime );
-		crownPreview.Update( Time.Now - startTime );
+		playerPreview.Update( RealTime.Delta );
+		playerCostumePreview.Update( RealTime.Delta );
+		crownPreview.Update( RealTime.Delta );
 	}
 
 	void CopyParams( PlayerAnimator from, AnimSceneObject to )
